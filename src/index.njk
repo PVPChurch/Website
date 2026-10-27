@@ -20,7 +20,7 @@ title: Home
   <p class="credit">Photo: <a href="https://commons.wikimedia.org/wiki/File:Partick_South_Parish_Church.jpg">NickGeorge1993</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></p>
 
   {#- Shown only on Sunday mornings, by assets/js/watch-live.js. Without JavaScript it stays hidden,
-      and the YouTube link under "Watch our services" still works. -#}
+      and the recording cards below still link to YouTube. -#}
   <watch-live day="{{ site.watchLive.day }}" from="{{ site.watchLive.from }}" until="{{ site.watchLive.until }}" time-zone="{{ site.timeZone }}" hidden>
     <section class="live-banner on-accent" aria-labelledby="live-heading">
       <h2 id="live-heading">Our Sunday service is on now</h2>
@@ -43,7 +43,7 @@ title: Home
       <h2 id="watch-heading">Watch our services</h2>
       <a href="/recordings/">All service recordings</a>
     </div>
-    <p>Our Sunday morning service is streamed live on <a href="https://www.youtube.com/{{ site.youtube.handle }}">YouTube</a> every Sunday. Missed one? Watch it again here.</p>
+    <p>Our Sunday morning service is streamed live on YouTube every Sunday. Missed one? Watch it again here.</p>
     <ul class="cards recording-list">
       {%- for item in collections.recordings.slice(0, 3) %}
       <li>{% set r = item.data.recording %}{% include "partials/recording-card.njk" %}</li>

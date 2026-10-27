@@ -8,9 +8,10 @@
       {%- if r.sermonTitle %}{{ r.sermonTitle }}<span class="visually-hidden">, {{ r.displayDate }}</span>
       {%- else %}Sunday service<span class="visually-hidden">, {{ r.displayDate | replace("Sunday ", "") }}</span>{% endif -%}
     </a></h{{ hl }}>
+    {#- The Bible Passages if there are any, otherwise the date (already in the link text for screen readers). #}
     {%- if r.passages.length %}
     <p class="meta">{{ r.passages | join("; ") }}</p>
-    {%- elif not r.sermonTitle %}
+    {%- else %}
     <p class="meta" aria-hidden="true">{{ r.displayDate | replace("Sunday ", "") }}</p>
     {%- endif %}
   </div>
