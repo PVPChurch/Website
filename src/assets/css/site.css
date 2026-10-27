@@ -81,7 +81,7 @@ h3, .card-title { font-size: 1.05rem; margin: 0 0 0.25rem; }
 
 /* Header and menu. The menu simply wraps on small screens, with no JavaScript;
    the border keeps a wrapped menu visibly part of the header. */
-.site-header { border-bottom: 1px solid var(--border); }
+.site-header { border-bottom: 3px solid var(--accent); } /* matches the current-page underline */
 .header-inner { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; padding-block: 1.25rem; }
 .brand { display: flex; align-items: center; gap: 0.8rem; color: var(--text); text-decoration: none; }
 .brand:hover { color: var(--text); }
