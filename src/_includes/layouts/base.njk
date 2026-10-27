@@ -31,9 +31,7 @@
         <ul class="menu">
           {%- for item in collections.menu %}
           <li><a href="{{ item.url }}"{% if item.url | isCurrent(page.url) %} aria-current="{{ 'page' if item.url == page.url else 'true' }}"{% endif %}>{{ item.label }}</a></li>
-          {%- endfor %}
-          <li><a class="youtube-link" href="https://www.youtube.com/{{ site.youtube.handle }}">Watch on YouTube</a></li>
-        </ul>
+          {%- endfor %}        </ul>
       </nav>
     </div>
   </header>
