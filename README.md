@@ -70,6 +70,6 @@ Do these in order. Use the church's role mailbox for every account, never a pers
 
 A problem that would break a page fails the build, for example a recording whose date isn't a date or whose YouTube link isn't a YouTube link. Cloudflare then keeps the previous version live and emails the Maintainer. The build log names the file and the problem in plain English.
 
-Anything merely missing doesn't fail the build. A Service Recording with no Sermon Title or Bible Passage is **Incomplete**: it still appears on the site, with its date as the headline. A Bible Passage with an unrecognised book (e.g. "Mrak 15") is shown without a BibleGateway link.
+Anything merely missing doesn't fail the build. A Service Recording with no Sermon Title or Bible Passage is **Incomplete**: it still appears on the site, with its date as the headline. Bible Passages are shown exactly as written. Service Recordings have no pages of their own: every list links straight to the video on YouTube (docs/adr/0004).
 
 Most mistakes are stopped earlier, in Pages CMS, by required fields and format checks (`.pages.yml`).

@@ -55,7 +55,7 @@ export default function (eleventyConfig) {
       api.getFilteredByGlob("src/content/recordings/*.md")
         .filter((item) => item.data.recording.published)
         .sort(byNewest)
-        .map((item) => ({ ...item.data.recording, url: item.url })),
+        .map((item) => item.data.recording),
     ));
 
   // Whether a menu link is the current page (or the section it belongs to).

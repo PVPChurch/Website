@@ -11,12 +11,15 @@ eleventyComputed:
 ---
 <h1>Service recordings</h1>
 <p>Our Sunday morning services. Every service is also on <a href="https://www.youtube.com/{{ site.youtube.handle }}">our YouTube channel</a>.</p>
+{%- if collections.series.length %}
+<p>Sermon series: {% for series in collections.series %}<a href="/series/{{ series.slug }}/">{{ series.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+{%- endif %}
 
 {% if recordings.length %}
 {% set cardHeading = 2 %}
 <ul class="cards recording-list">
   {%- for item in recordings %}
-  <li>{% set r = item.data.recording %}{% set url = item.url %}{% include "partials/recording-card.njk" %}</li>
+  <li>{% set r = item.data.recording %}{% include "partials/recording-card.njk" %}</li>
   {%- endfor %}
 </ul>
 {% else %}

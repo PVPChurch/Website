@@ -11,7 +11,7 @@ title: Home
       <p class="buttons">
         <a class="button" href="/contact/">Find us</a>
         {%- if latest %}
-        <a class="button secondary" href="{{ latest.url }}">Watch the latest service</a>
+        <a class="button secondary" href="{{ latest.data.recording.watchUrl }}">Watch the latest service</a>
         {%- endif %}
       </p>
     </div>
@@ -46,7 +46,7 @@ title: Home
     <p>Our Sunday morning service is streamed live on <a href="https://www.youtube.com/{{ site.youtube.handle }}">YouTube</a> every Sunday. Missed one? Watch it again here.</p>
     <ul class="cards recording-list">
       {%- for item in collections.recordings.slice(0, 3) %}
-      <li>{% set r = item.data.recording %}{% set url = item.url %}{% include "partials/recording-card.njk" %}</li>
+      <li>{% set r = item.data.recording %}{% include "partials/recording-card.njk" %}</li>
       {%- endfor %}
     </ul>
   </section>

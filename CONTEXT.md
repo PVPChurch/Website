@@ -7,7 +7,7 @@ The public website for Partick Victoria Park Church: where visitors find out abo
 ### Content
 
 **Service Recording**:
-A video of a whole Sunday morning service, published on YouTube, together with its date, Sermon Title, and the Bible Passages preached on. Other services are not recorded. Each one is created automatically from the YouTube channel with just its video and date; an Editor adds the Sermon Title and Bible Passages afterwards. Until then it is an **Incomplete** Service Recording, but it is still shown on the site.
+A video of a whole Sunday morning service, published on YouTube, together with its date, Sermon Title, and the Bible Passages preached on. Other services are not recorded. Each one is created automatically from the YouTube channel with just its video and date; an Editor adds the Sermon Title and Bible Passages afterwards. Until then it is an **Incomplete** Service Recording, but it is still shown on the site. It has no page of its own: wherever the site lists it, it links straight to the video on YouTube.
 _Avoid_: Sermon (as a content type), Video, Recording
 
 **Sermon Title**:

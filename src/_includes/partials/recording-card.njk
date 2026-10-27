@@ -1,14 +1,15 @@
-{#- Expects `r` (a normalised recording) and `url`; `cardHeading` sets the heading level (default 3).
+{#- Expects `r` (a normalised recording); `cardHeading` sets the heading level (default 3).
+    The only link goes straight to the video on YouTube (docs/adr/0004).
     The date block is for sighted readers; screen readers get the date from the link text. -#}
 {%- set hl = cardHeading or 3 -%}
 <article class="card recording-card">
   <div class="card-body">
-    <h{{ hl }} class="card-title"><a href="{{ url }}">
+    <h{{ hl }} class="card-title"><a href="{{ r.watchUrl }}">
       {%- if r.sermonTitle %}{{ r.sermonTitle }}<span class="visually-hidden">, {{ r.displayDate }}</span>
       {%- else %}Sunday service<span class="visually-hidden">, {{ r.displayDate | replace("Sunday ", "") }}</span>{% endif -%}
     </a></h{{ hl }}>
     {%- if r.passages.length %}
-    <p class="meta">{% for passage in r.passages %}{{ passage.text }}{% if not loop.last %}; {% endif %}{% endfor %}</p>
+    <p class="meta">{{ r.passages | join("; ") }}</p>
     {%- elif not r.sermonTitle %}
     <p class="meta" aria-hidden="true">{{ r.displayDate | replace("Sunday ", "") }}</p>
     {%- endif %}

@@ -1,11 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { youtubeId } from "../lib/youtube.js";
-import { bibleGatewayUrl, isKnownBook } from "../lib/passages.js";
 import { slug, longDate, toDate, keepTogether } from "../lib/text.js";
 import { normaliseRecording, normalisePage, buildMenu, groupSeries, ContentError } from "../lib/content.js";
-
-const options = { bibleVersion: "NIVUK" };
 
 test("youtubeId understands the links people paste", () => {
   for (const link of [
@@ -22,21 +19,6 @@ test("youtubeId understands the links people paste", () => {
   assert.equal(youtubeId("https://www.youtube.com/@PartickVictoriaParkChurch"), null);
   assert.equal(youtubeId(""), null);
   assert.equal(youtubeId(undefined), null);
-});
-
-test("Bible Passages link to BibleGateway only when the book is real", () => {
-  assert.equal(
-    bibleGatewayUrl("Mark 15:1-20", "NIVUK"),
-    "https://www.biblegateway.com/passage/?search=Mark%2015%3A1-20&version=NIVUK",
-  );
-  for (const passage of ["Psalm 23", "1 Corinthians 13:4-7", "Song of Songs 2", "Matt 5:1-12", "1 Cor 13", "Ps 23", "Jn 3:16"]) {
-    assert.ok(bibleGatewayUrl(passage, "NIVUK"), passage);
-  }
-  for (const passage of ["Mrak 15", "Gospel reading", "15:1-20", "J 3:16"]) {
-    assert.equal(bibleGatewayUrl(passage, "NIVUK"), null, passage);
-  }
-  assert.ok(isKnownBook("Revelation"));
-  assert.ok(!isKnownBook("Revelations of doom"));
 });
 
 test("slug and dates", () => {
@@ -63,12 +45,13 @@ test("a complete Service Recording", () => {
     sermonTitle: "Where have you placed your hope?",
     passages: ["Luke 23:32-43"],
     series: "Lent 2024",
-  }, "2024-02-25.md", options);
+  }, "2024-02-25.md");
   assert.equal(recording.incomplete, false);
   assert.equal(recording.headline, "Where have you placed your hope?");
   assert.equal(recording.seriesSlug, "lent-2024");
   assert.deepEqual(recording.calendar, { day: "25", month: "Feb", year: "2024" });
-  assert.equal(recording.passages[0].url, "https://www.biblegateway.com/passage/?search=Luke%2023%3A32-43&version=NIVUK");
+  assert.deepEqual(recording.passages, ["Luke 23:32-43"]);
+  assert.equal(recording.watchUrl, "https://www.youtube.com/watch?v=prjO6eR57E0");
   assert.equal(recording.published, true);
 });
 
@@ -79,25 +62,26 @@ test("an Incomplete Service Recording, as the importer creates it, still builds"
     sermonTitle: "",
     passages: [],
     series: "",
-  }, "2026-10-25.md", options);
+  }, "2026-10-25.md");
   assert.equal(recording.incomplete, true);
   assert.equal(recording.headline, "Sunday service, 25 October 2026");
   assert.equal(recording.series, null);
 });
 
-test("an unrecognised passage is shown without a link rather than failing", () => {
-  const recording = normaliseRecording({ date: "2026-10-25", youtube: "FVqPbsEol2M", passages: "Mrak 15" }, "x.md", options);
-  assert.deepEqual(recording.passages, [{ text: "Mrak 15", url: null }]);
-  assert.deepEqual(recording.unlinkedPassages, ["Mrak 15"]);
+test("Bible Passages are shown as written, whatever form they come in", () => {
+  const one = normaliseRecording({ date: "2026-10-25", youtube: "FVqPbsEol2M", passages: " Mrak 15 " }, "x.md");
+  assert.deepEqual(one.passages, ["Mrak 15"]);
+  const two = normaliseRecording({ date: "2026-10-25", youtube: "FVqPbsEol2M", passages: ["Psalm 23", "", "John 10:1-18"] }, "x.md");
+  assert.deepEqual(two.passages, ["Psalm 23", "John 10:1-18"]);
 });
 
-test("a recording that would break its page fails the build with a clear message", () => {
+test("a recording that would break the lists fails the build with a clear message", () => {
   assert.throws(
-    () => normaliseRecording({ date: "next Sunday", youtube: "FVqPbsEol2M" }, "bad-date.md", options),
+    () => normaliseRecording({ date: "next Sunday", youtube: "FVqPbsEol2M" }, "bad-date.md"),
     (error) => error instanceof ContentError && /bad-date\.md: the service date/.test(error.message),
   );
   assert.throws(
-    () => normaliseRecording({ date: "2026-10-25", youtube: "https://example.com/video" }, "bad-link.md", options),
+    () => normaliseRecording({ date: "2026-10-25", youtube: "https://example.com/video" }, "bad-link.md"),
     /bad-link\.md: .* isn't a YouTube video link/,
   );
 });
@@ -123,7 +107,7 @@ test("the menu merges fixed sections with Menu Pages in order", () => {
 });
 
 test("Series group recordings whose names match", () => {
-  const make = (date, series) => normaliseRecording({ date, youtube: "FVqPbsEol2M", series }, `${date}.md`, options);
+  const make = (date, series) => normaliseRecording({ date, youtube: "FVqPbsEol2M", series }, `${date}.md`);
   const groups = groupSeries([make("2024-03-03", "Lent 2024"), make("2024-02-25", "Lent 2024"), make("2024-02-18", "Advent")]);
   assert.deepEqual(groups.map((group) => [group.name, group.recordings.length]), [["Lent 2024", 2], ["Advent", 1]]);
 });

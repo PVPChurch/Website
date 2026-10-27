@@ -57,7 +57,7 @@ content:
       - name: passages
         label: Bible passage
         type: string
-        description: "For example: John 10:1-18. If there were two readings, press Add and type the second in the new box. They link to the NIVUK on BibleGateway."
+        description: "For example: John 10:1-18. If there were two readings, press Add and type the second in the new box."
         list:
           max: 2
         pattern:

@@ -14,7 +14,7 @@ eleventyComputed:
 {% set cardHeading = 2 %}
 <ul class="cards recording-list">
   {%- for r in series.recordings %}
-  <li>{% set url = r.url %}{% include "partials/recording-card.njk" %}</li>
+  <li>{% include "partials/recording-card.njk" %}</li>
   {%- endfor %}
 </ul>
 
