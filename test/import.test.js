@@ -54,6 +54,40 @@ test("dateFromTitle reads long-form dates", () => {
   assert.equal(dateFromTitle("2nd of Nov, 2026 morning"), "2026-11-02");
   assert.equal(dateFromTitle("Morning worship"), null);
   assert.equal(dateFromTitle("31 September 2026"), null);
+  // Real titles from the channel.
+  assert.equal(dateFromTitle("Partick Victoria Park Church Morning Service 11- October 2026"), "2026-10-11");
+  assert.equal(dateFromTitle("Sunday 6th Sept 2026   SD 480p"), "2026-09-06");
+  assert.equal(dateFromTitle("Psalm 23 - Sunday 5th April 2026"), "2026-04-05");
+  assert.equal(dateFromTitle("Recorded 2026 October"), null);
+});
+
+test("dateFromTitle takes a missing year from the upload date", () => {
+  const title = "Sunday 18th October - The Value of Wisdom (Ecc 9 : 1 - 18 / John 11 : 21 - 27)";
+  assert.equal(dateFromTitle(title, "2026-10-19T09:00:00+00:00"), "2026-10-18");
+  // A stream scheduled in late December for the first Sunday of January.
+  assert.equal(dateFromTitle("Sunday 3rd January", "2026-12-28T12:00:00+00:00"), "2027-01-03");
+  assert.equal(dateFromTitle("Sunday 27th September"), null);
+});
+
+test("a dated title beats an upload that is only dated by when it went up", () => {
+  const videos = [
+    { id: "REALSERVICE", title: "Sunday 20th September 2026", published: "2026-09-21T10:00:00+00:00" },
+    { id: "TESTVIDEO01", title: "Morning worship", published: "2026-09-20T09:00:00+00:00" },
+  ];
+  const plan = planImports(videos, readExisting([]), { today: "2026-10-25", timeZone: "Europe/London" });
+  const outcome = Object.fromEntries(plan.map(({ video, skip }) => [video.id, skip]));
+  assert.deepEqual(outcome, { REALSERVICE: null, TESTVIDEO01: "a recording for that Sunday already exists" });
+});
+
+test("undated test uploads aren't imported", () => {
+  const videos = [
+    { id: "TESTVIDEO01", title: "Test", published: "2026-09-20T09:00:00+00:00" },
+    { id: "TESTVIDEO02", title: "Testing YouTube Connection", published: "2026-09-20T09:00:00+00:00" },
+    { id: "SERMON00001", title: "Put to the test - Sunday 27th September 2026", published: "2026-09-27T12:00:00+00:00" },
+  ];
+  const plan = planImports(videos, readExisting([]), { today: "2026-10-25", timeZone: "Europe/London" });
+  const outcome = Object.fromEntries(plan.map(({ video, skip }) => [video.id, skip]));
+  assert.deepEqual(outcome, { TESTVIDEO01: "looks like a test upload", TESTVIDEO02: "looks like a test upload", SERMON00001: null });
 });
 
 test("dayIn uses the church's time zone", () => {

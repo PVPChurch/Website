@@ -58,7 +58,7 @@ Do these in order. Use the church's role mailbox for every account, never a pers
    - If you choose different addresses, change `CONTACT_TO` and `CONTACT_FROM` in `wrangler.jsonc`.
 
    On the free plan, Cloudflare only sends to verified destination addresses, which is all we need.
-7. **YouTube channel ID.** Run `npm run import-recordings -- --dry-run`. If `channelId` is empty in `src/_data/site.json`, it looks the ID up from the handle and prints it. Paste it into `site.json` and commit. (Or find it in YouTube: the channel's *About → Share channel → Copy channel ID*.)
+7. **YouTube channel ID.** Run `npm run import-recordings:dry-run`. If `channelId` is empty in `src/_data/site.json`, it looks the ID up from the handle and prints it. Paste it into `site.json` and commit. (Or find it in YouTube: the channel's *About → Share channel → Copy channel ID*.)
 8. **Recent recordings.** In GitHub go to *Actions → Import service recordings → Run workflow*. It adds every recent Sunday service on the channel that isn't already on the site. YouTube's feed only lists the latest 15 videos, so anything older has to be added by hand in Pages CMS.
 9. **Pages CMS.** Sign in at [app.pagescms.org](https://app.pagescms.org) with your GitHub account, install the Pages CMS GitHub App on the organisation, and open this repository. To add an Editor, invite them by email under the repository's settings in Pages CMS. They don't need a GitHub account.
 10. **Visitor statistics.** In Cloudflare go to *Analytics & Logs → Web Analytics → Add a site*. For a domain on Cloudflare, automatic setup works with no code. Otherwise put the token in `webAnalyticsToken` in `site.json`. It uses no cookies, so no cookie banner is needed.

@@ -1,18 +1,19 @@
 // Creates a Service Recording for each new Sunday service video on the YouTube channel.
 //
 // Run by .github/workflows/import-recordings.yml on Sunday afternoons and evenings,
-// or by hand: `npm run import-recordings` (add `-- --dry-run` to only report).
+// or by hand: `npm run import-recordings`, or `npm run import-recordings:dry-run` to only
+// report. (Not `-- --dry-run`: PowerShell drops the `--`, so npm swallows the flag.)
 //
 // It only writes what it can be sure of: the video link and the date. Editors add the
 // Sermon Title and Bible Passages afterwards. See docs/adr/0002.
 
 import { readFile, readdir, writeFile, appendFile } from "node:fs/promises";
 import { join } from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { feedUrl, parseFeed, dateFromTitle, dayIn } from "../lib/feed.js";
 import { youtubeId, watchUrl } from "../lib/youtube.js";
 
-const ROOT = new URL("..", import.meta.url).pathname;
+const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const RECORDINGS = join(ROOT, "src/content/recordings");
 const SITE = join(ROOT, "src/_data/site.json");
 
@@ -35,21 +36,27 @@ export function readExisting(files) {
  * (scheduled streams appear in the feed before they happen), are imported.
  */
 export function planImports(videos, existing, { today, timeZone }) {
-  const plan = [];
   const claimedDates = new Set(existing.dates);
-  // Oldest first, so that if a service was uploaded twice the first upload wins.
-  for (const video of [...videos].reverse()) {
-    const date = dateFromTitle(video.title) ?? dayIn(timeZone, new Date(video.published));
+  const dated = [...videos].map((video, feedOrder) => {
+    const fromTitle = dateFromTitle(video.title, video.published);
+    return { video, feedOrder, fromTitle, date: fromTitle ?? dayIn(timeZone, new Date(video.published)) };
+  });
+  // Videos with the date in their title first, then oldest first, so that if a Sunday
+  // has two uploads, the one that says which service it is wins, then the first upload.
+  const order = [...dated].sort((a, b) => Boolean(b.fromTitle) - Boolean(a.fromTitle) || b.feedOrder - a.feedOrder);
+  const skips = new Map();
+  for (const { video, fromTitle, date } of order) {
     let skip = null;
     if (existing.ids.has(video.id)) skip = "already on the site";
+    else if (!fromTitle && /\btest(ing)?\b/i.test(video.title)) skip = "looks like a test upload";
     else if (date > today) skip = "not happened yet";
     else if (new Date(`${date}T00:00:00Z`).getUTCDay() !== 0) skip = "not a Sunday";
     else if (existing.latest && date <= existing.latest) skip = "older than the newest recording on the site";
     else if (claimedDates.has(date)) skip = "a recording for that Sunday already exists";
     if (!skip) claimedDates.add(date);
-    plan.push({ video, date, skip });
+    skips.set(video, skip);
   }
-  return plan.reverse();
+  return dated.map(({ video, date }) => ({ video, date, skip: skips.get(video) }));
 }
 
 export function recordingFile(video, date) {
