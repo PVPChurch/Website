@@ -165,7 +165,7 @@ main:focus { outline: none; }
 .credit { margin: 0.3rem 0 0; font-size: 0.75rem; color: var(--muted); text-align: right; }
 /* One column on narrow screens; one unwrapped row from 60em (see .cards too). */
 .service-times { display: flex; flex-direction: column; gap: 0.25rem; }
-.service-times h2 { margin: 0 0 0.25rem; color: var(--text); }
+.service-times h2 { margin: 0 0 0.25rem; }
 .service-times p { margin: 0; }
 @media (min-width: 60em) {
   .service-times { flex-direction: row; flex-wrap: nowrap; align-items: baseline; gap: 2rem; }
