@@ -129,8 +129,14 @@ main:focus { outline: none; }
 
 /* Home page */
 .hero { display: flex; flex-wrap: wrap; border-radius: var(--radius); overflow: hidden; }
-.hero-text { flex: 1 1 22rem; min-width: 0; padding: clamp(1.75rem, 4vw, 2.75rem); display: flex; flex-direction: column; justify-content: center; }
+.hero-text { flex: 1 1 22rem; min-width: 0; padding: clamp(1.75rem, 4vw, 2.75rem); display: flex; flex-direction: column; justify-content: center; container-type: inline-size; }
 .hero h1 { font-size: clamp(2rem, 1.3rem + 2.6vw, 2.55rem); line-height: 1.1; }
+/* Where "Partick Victoria Park" is kept on one line (see .keep-together), it is about
+   9.2 times the font size wide, so the heading is capped at 9.5% of its column's width
+   to stop it running under the photo. */
+@media (min-width: 30rem) {
+  .hero h1 { font-size: min(clamp(2rem, 1.3rem + 2.6vw, 2.55rem), 9.5cqi); }
+}
 .hero-text p { font-size: 1.1rem; margin: 0 0 0.5rem; }
 .hero .buttons { margin-top: 1.25rem; }
 /* The build wraps the photo in <picture> (for WebP), so that's the flex item. */
@@ -151,7 +157,7 @@ main:focus { outline: none; }
 .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.5rem; }
 .section-head h2 { margin: 0; font-size: 1.9rem; }
 .section-head a { font-weight: 700; }
-.panels { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.panels { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr)); }
 .panel { background: var(--surface); border-radius: var(--radius); padding: 1.5rem 1.75rem; }
 .panel h2 { margin-top: 0; }
 .panel > :last-child { margin-bottom: 0; }
@@ -183,7 +189,7 @@ watch-live:not([hidden]) { display: block; }
 
 .pager { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; margin-top: 2rem; }
 
-.gallery { list-style: none; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+.gallery { list-style: none; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr)); }
 .gallery figure { margin: 0; }
 .gallery img { display: block; width: 100%; border-radius: var(--radius); }
 .gallery figcaption { margin-top: 0.5rem; color: var(--muted); }
