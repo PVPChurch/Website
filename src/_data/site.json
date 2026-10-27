@@ -1,0 +1,45 @@
+{
+  "name": "Partick Victoria Park Church",
+  "denomination": "Church of Scotland",
+  "tagline": "Making Jesus Known",
+  "url": "https://partickvictoriaparkchurch.uk",
+  "charityNumber": "SC008315",
+  "address": [
+    "259 Dumbarton Road",
+    "Glasgow",
+    "G11 6AB"
+  ],
+  "phone": "0141 339 8816",
+  "phoneLink": "+441413398816",
+  "timeZone": "Europe/London",
+  "bibleVersion": "NIVUK",
+  "youtube": {
+    "handle": "@PartickVictoriaParkChurch",
+    "channelId": ""
+  },
+  "watchLive": {
+    "day": "Sunday",
+    "from": "10:50",
+    "until": "12:30"
+  },
+  "fixedMenu": [
+    {
+      "label": "Home",
+      "url": "/",
+      "order": 0
+    },
+    {
+      "label": "Service recordings",
+      "url": "/recordings/",
+      "order": 10
+    },
+    {
+      "label": "Gallery",
+      "url": "/gallery/",
+      "order": 40
+    }
+  ],
+  "recordingsPerPage": 12,
+  "turnstileSiteKey": "",
+  "webAnalyticsToken": ""
+}

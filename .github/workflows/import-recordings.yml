@@ -1,0 +1,48 @@
+# Creates Service Recordings for new Sunday service videos on YouTube (docs/adr/0002).
+# Runs on Sunday afternoon and evening, and can be run by hand from the Actions tab
+# or from the "Check YouTube for new services" button in Pages CMS.
+name: Import service recordings
+
+on:
+  schedule:
+    # Times are UTC: 13:30 and 18:30 in winter, 14:30 and 19:30 in summer.
+    - cron: "30 13 * * 0"
+    - cron: "30 18 * * 0"
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Sent by Pages CMS (not needed when running by hand)
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-recordings
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+
+      # The importer has no dependencies, so there's nothing to install.
+      - run: node scripts/import-recordings.js
+
+      - name: Commit new recordings
+        run: |
+          if [ -z "$(git status --porcelain src/content/recordings)" ]; then
+            echo "No new recordings."
+            exit 0
+          fi
+          git config user.name "Recording importer"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/recordings
+          git commit -m "Add new service recordings from YouTube"
+          git push

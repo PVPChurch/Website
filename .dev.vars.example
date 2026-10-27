@@ -1,0 +1,4 @@
+# Copy to .dev.vars for `npx wrangler dev`. These are Cloudflare's published Turnstile
+# test keys: the widget always passes. Pair with the test site key
+# 1x00000000000000000000AA in src/_data/site.json while testing locally.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA

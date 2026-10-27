@@ -1,0 +1,32 @@
+---
+layout: layouts/base.njk
+title: Service recordings
+pagination:
+  data: collections.recordings
+  size: 12
+  alias: recordings
+permalink: "/recordings/{% if pagination.pageNumber > 0 %}page-{{ pagination.pageNumber + 1 }}/{% endif %}"
+eleventyComputed:
+  title: "Service recordings{% if pagination.pageNumber > 0 %} (page {{ pagination.pageNumber + 1 }}){% endif %}"
+---
+<h1>Service recordings</h1>
+<p>Our Sunday morning service, newest first. Every service is also on <a href="https://www.youtube.com/{{ site.youtube.handle }}">our YouTube channel</a>.</p>
+
+{% if recordings.length %}
+{% set cardHeading = 2 %}
+<ul class="cards recording-list">
+  {%- for item in recordings %}
+  <li>{% set r = item.data.recording %}{% set url = item.url %}{% include "partials/recording-card.njk" %}</li>
+  {%- endfor %}
+</ul>
+{% else %}
+<p>There are no recordings yet.</p>
+{% endif %}
+
+{% if pagination.pages.length > 1 %}
+<nav class="pager" aria-label="More recordings">
+  {% if pagination.href.previous %}<a href="{{ pagination.href.previous }}" rel="prev">Newer services</a>{% endif %}
+  <span>Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}</span>
+  {% if pagination.href.next %}<a href="{{ pagination.href.next }}" rel="next">Older services</a>{% endif %}
+</nav>
+{% endif %}

@@ -1,0 +1,21 @@
+---
+layout: layouts/base.njk
+title: Gallery
+permalink: /gallery/
+---
+<h1>Gallery</h1>
+
+{% if gallery.length %}
+<ul class="gallery">
+  {%- for photo in gallery %}
+  <li>
+    <figure>
+      <img src="{{ photo.image }}" alt="{{ photo.description }}" sizes="(min-width: 48rem) 22rem, 100vw">
+      <figcaption>{{ photo.caption }}</figcaption>
+    </figure>
+  </li>
+  {%- endfor %}
+</ul>
+{% else %}
+<p>There are no photos here yet.</p>
+{% endif %}

@@ -1,0 +1,45 @@
+---
+layout: layouts/base.njk
+title: Home
+---
+{%- set latest = collections.recordings[0] -%}
+<div class="home">
+  <section class="intro prose">
+    <h1>{{ home.heading }}</h1>
+    {{ home.intro | renderContent("md") | safe }}
+  </section>
+
+  {#- Shown only on Sunday mornings, by assets/js/watch-live.js. Without JavaScript it stays hidden,
+      and the "Watch on YouTube" link in the header still works. -#}
+  <watch-live day="{{ site.watchLive.day }}" from="{{ site.watchLive.from }}" until="{{ site.watchLive.until }}" time-zone="{{ site.timeZone }}" hidden>
+    <section class="live-banner" aria-labelledby="live-heading">
+      <h2 id="live-heading">Our Sunday service is on now</h2>
+      <p><a class="button" href="https://www.youtube.com/{{ site.youtube.handle }}/live">Watch live on YouTube</a></p>
+    </section>
+  </watch-live>
+
+  {% if latest %}
+  <section aria-labelledby="latest-heading">
+    <h2 id="latest-heading">Latest service</h2>
+    {% set r = latest.data.recording %}{% set url = latest.url %}
+    {% include "partials/recording-card.njk" %}
+    <p><a href="/recordings/">All service recordings</a>, or <a href="https://www.youtube.com/{{ site.youtube.handle }}">see every service on our YouTube channel</a>.</p>
+  </section>
+  {% endif %}
+
+  {% if collections.featured.length %}
+  <section aria-labelledby="featured-heading">
+    <h2 id="featured-heading">News and events</h2>
+    <ul class="cards">
+      {%- for item in collections.featured %}
+      <li class="card">
+        <div class="card-body">
+          <h3><a href="{{ item.url }}">{{ item.data.entry.title }}</a></h3>
+          {% if item.data.entry.summary %}<p>{{ item.data.entry.summary }}</p>{% endif %}
+        </div>
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+  {% endif %}
+</div>

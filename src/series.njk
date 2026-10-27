@@ -1,0 +1,21 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.series
+  size: 1
+  alias: series
+permalink: "/series/{{ series.slug }}/"
+eleventyComputed:
+  title: "{{ series.name }}"
+---
+<h1>{{ series.name }}</h1>
+<p>{{ series.recordings.length }} {{ "service" if series.recordings.length == 1 else "services" }} in this series, newest first.</p>
+
+{% set cardHeading = 2 %}
+<ul class="cards recording-list">
+  {%- for r in series.recordings %}
+  <li>{% set url = r.url %}{% include "partials/recording-card.njk" %}</li>
+  {%- endfor %}
+</ul>
+
+<p><a href="/recordings/">All service recordings</a></p>

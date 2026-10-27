@@ -1,0 +1,174 @@
+# Pages CMS configuration: what Editors see at app.pagescms.org.
+# Labels and help text here should match the Editing Guide (src/editing-guide.md).
+# Docs: https://pagescms.org/docs/configuration/
+
+media:
+  input: src/media
+  output: /media
+  categories: [image]
+  rename: safe
+
+settings:
+  commit:
+    # Record which Editor made each change in the repo history.
+    identity: user
+
+content:
+  - name: recordings
+    label: Service recordings
+    type: collection
+    path: src/content/recordings
+    format: yaml-frontmatter
+    filename: "{date}.md"
+    view:
+      fields: [date, sermonTitle, series, published]
+      primary: date
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    actions:
+      - name: import-recordings
+        label: Check YouTube for new services
+        workflow: import-recordings.yml
+        scope: collection
+    fields:
+      - name: date
+        label: Date of the service
+        type: date
+        required: true
+        description: The Sunday the service took place.
+        options:
+          format: yyyy-MM-dd
+      - name: youtube
+        label: YouTube link
+        type: string
+        required: true
+        description: "Usually filled in for you. To add one by hand, copy the link from YouTube's Share button, e.g. https://youtu.be/abc123XYZ_0"
+        pattern:
+          regex: "^\\s*(https?://)?((www|m)\\.)?(youtube\\.com/(watch\\?.*v=|live/|embed/|shorts/)|youtu\\.be/)[A-Za-z0-9_-]{11}.*$"
+          message: That doesn't look like a YouTube video link. Copy it from YouTube's Share button.
+      - name: sermonTitle
+        label: Sermon title
+        type: string
+        description: "For example: The Good Shepherd. If this is empty, the website shows the date instead."
+        options:
+          maxlength: 120
+      - name: passages
+        label: Bible passage
+        type: string
+        description: "For example: John 10:1-18. If there were two readings, press Add and type the second in the new box. They link to the NIVUK on BibleGateway."
+        list:
+          max: 2
+        pattern:
+          regex: "^\\s*([1-3]\\s?)?[A-Za-z][A-Za-z .]*\\s\\d+.*$"
+          message: "Write the book, then the chapter and verses, e.g. Mark 15:1-20 or Psalm 23."
+      - name: series
+        label: Series
+        type: string
+        description: Only if this sermon is part of a series. Type the series name exactly as last time (e.g. Lent 2026) so the sermons are grouped together.
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+        description: Switch off to hide this recording from the website without deleting it.
+
+  - name: pages
+    label: Pages
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      fields: [title, inMenu, featured, published]
+      primary: title
+      sort: [title]
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+        options:
+          maxlength: 80
+      - name: body
+        label: Text
+        type: rich-text
+        description: "To add a heading, list, link or picture, type / and choose from the menu."
+        options:
+          switcher: false
+          path: src/media/pages
+      - name: inMenu
+        label: Show in the main menu
+        type: boolean
+        default: false
+        description: For pages that are always there, like About us.
+      - name: menuOrder
+        label: Menu position
+        type: number
+        description: "Smaller numbers come first. Home is 0, Service recordings 10, Gallery 40. Leave a gap so pages can go in between."
+      - name: featured
+        label: Feature on the home page
+        type: boolean
+        default: false
+        description: For news and events. Remember to switch this off when the event is over.
+      - name: summary
+        label: Summary for the home page
+        type: text
+        description: One sentence shown on the home page when this page is featured.
+        options:
+          maxlength: 200
+      - name: contactForm
+        label: Show the contact form
+        type: boolean
+        default: false
+        description: Adds the contact form at the bottom of this page. Usually only on Contact us.
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+        description: Switch off to hide this page from the website without deleting it.
+
+  - name: home
+    label: Home page welcome
+    type: file
+    path: src/_data/home.json
+    format: json
+    fields:
+      - name: heading
+        label: Heading
+        type: string
+        required: true
+      - name: intro
+        label: Welcome text
+        type: rich-text
+        options:
+          switcher: false
+          media: false
+
+  - name: gallery
+    label: Gallery
+    type: file
+    path: src/_data/gallery.json
+    format: json
+    list: true
+    fields:
+      - name: image
+        label: Photo
+        type: image
+        required: true
+        options:
+          path: src/media/gallery
+      - name: caption
+        label: Caption
+        type: string
+        required: true
+        description: Shown under the photo.
+        options:
+          maxlength: 140
+      - name: description
+        label: Description, for people who can't see the photo
+        type: text
+        required: true
+        description: "Say what's in the photo, e.g. Children from Young Church holding up their Easter cards."
+        options:
+          maxlength: 300

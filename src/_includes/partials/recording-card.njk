@@ -1,0 +1,14 @@
+{#- Expects `r` (a normalised recording) and `url`; `cardHeading` sets the heading level (default 3). -#}
+{%- set hl = cardHeading or 3 -%}
+<article class="card recording-card">
+  <img eleventy:ignore src="{{ r.thumbnailUrl }}" alt="" width="480" height="360" loading="lazy" decoding="async">
+  <div class="card-body">
+    <h{{ hl }} class="card-title"><a href="{{ url }}">{{ r.headline }}</a></h{{ hl }}>
+    {%- if r.sermonTitle %}
+    <p class="meta"><time datetime="{{ r.isoDate }}">{{ r.displayDate }}</time></p>
+    {%- endif %}
+    {%- if r.passages.length %}
+    <p class="meta">{% for passage in r.passages %}{{ passage.text }}{% if not loop.last %}; {% endif %}{% endfor %}</p>
+    {%- endif %}
+  </div>
+</article>

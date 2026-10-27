@@ -1,0 +1,21 @@
+{
+  "name": "pvpsite",
+  "private": true,
+  "description": "Website for Partick Victoria Park Church",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "test": "node --test",
+    "import-recordings": "node scripts/import-recordings.js",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.7",
+    "@11ty/eleventy-img": "^7.1.1",
+    "wrangler": "^4.153.0"
+  }
+}

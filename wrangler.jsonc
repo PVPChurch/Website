@@ -1,0 +1,31 @@
+// Cloudflare deployment. Workers Builds runs `npm run build` then `npx wrangler deploy`
+// on every commit to main. See README.md for the one-off setup.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pvpsite",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-10-01",
+
+  "assets": {
+    "directory": "./_site",
+    "binding": "ASSETS",
+    // Only the contact form needs the Worker; everything else is served as static files.
+    "run_worker_first": ["/api/*"],
+    "not_found_handling": "404-page"
+  },
+
+  // Cloudflare Email Service. The free plan can only send to addresses verified in
+  // Email Routing, which is all we need: Contact Messages go to one church mailbox.
+  "send_email": [{ "name": "EMAIL" }],
+
+  "vars": {
+    // Must be verified in Email Routing (README step 6).
+    "CONTACT_TO": "office@partickvictoriaparkchurch.uk",
+    // Must be on the domain onboarded to Email Sending (README step 6).
+    "CONTACT_FROM": "website@partickvictoriaparkchurch.uk"
+  },
+  // TURNSTILE_SECRET_KEY is a secret: set it in the Cloudflare dashboard, or
+  // `npx wrangler secret put TURNSTILE_SECRET_KEY`. Never commit it.
+
+  "observability": { "enabled": true }
+}
