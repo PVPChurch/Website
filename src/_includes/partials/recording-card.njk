@@ -1,14 +1,15 @@
-{#- Expects `r` (a normalised recording) and `url`; `cardHeading` sets the heading level (default 3). -#}
+{#- Expects `r` (a normalised recording) and `url`; `cardHeading` sets the heading level (default 3).
+    The date block is for sighted readers; screen readers get the date from the link text. -#}
 {%- set hl = cardHeading or 3 -%}
 <article class="card recording-card">
-  <img eleventy:ignore src="{{ r.thumbnailUrl }}" alt="" width="480" height="360" loading="lazy" decoding="async">
   <div class="card-body">
-    <h{{ hl }} class="card-title"><a href="{{ url }}">{{ r.headline }}</a></h{{ hl }}>
-    {%- if r.sermonTitle %}
-    <p class="meta"><time datetime="{{ r.isoDate }}">{{ r.displayDate }}</time></p>
-    {%- endif %}
+    <h{{ hl }} class="card-title"><a href="{{ url }}">
+      {%- if r.sermonTitle %}{{ r.sermonTitle }}<span class="visually-hidden">, {{ r.displayDate }}</span>
+      {%- else %}Sunday service<span class="visually-hidden">, {{ r.displayDate | replace("Sunday ", "") }}</span>{% endif -%}
+    </a></h{{ hl }}>
     {%- if r.passages.length %}
     <p class="meta">{% for passage in r.passages %}{{ passage.text }}{% if not loop.last %}; {% endif %}{% endfor %}</p>
     {%- endif %}
   </div>
+  <p class="date-block" aria-hidden="true"><span class="day">{{ r.calendar.day }}</span> <span class="month">{{ r.calendar.month }}</span> <span class="year">{{ r.calendar.year }}</span></p>
 </article>

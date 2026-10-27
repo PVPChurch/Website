@@ -9,7 +9,7 @@ eleventyComputed:
   title: "{{ series.name }}"
 ---
 <h1>{{ series.name }}</h1>
-<p>{{ series.recordings.length }} {{ "service" if series.recordings.length == 1 else "services" }} in this series, newest first.</p>
+<p>{{ series.recordings.length }} {{ "service" if series.recordings.length == 1 else "services" }} in this series.</p>
 
 {% set cardHeading = 2 %}
 <ul class="cards recording-list">

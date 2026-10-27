@@ -10,7 +10,7 @@ eleventyComputed:
   title: "Service recordings{% if pagination.pageNumber > 0 %} (page {{ pagination.pageNumber + 1 }}){% endif %}"
 ---
 <h1>Service recordings</h1>
-<p>Our Sunday morning service, newest first. Every service is also on <a href="https://www.youtube.com/{{ site.youtube.handle }}">our YouTube channel</a>.</p>
+<p>Our Sunday morning services. Every service is also on <a href="https://www.youtube.com/{{ site.youtube.handle }}">our YouTube channel</a>.</p>
 
 {% if recordings.length %}
 {% set cardHeading = 2 %}

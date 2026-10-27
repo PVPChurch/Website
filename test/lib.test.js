@@ -58,6 +58,7 @@ test("a complete Service Recording", () => {
   assert.equal(recording.incomplete, false);
   assert.equal(recording.headline, "Where have you placed your hope?");
   assert.equal(recording.seriesSlug, "lent-2024");
+  assert.deepEqual(recording.calendar, { day: "25", month: "Feb", year: "2024" });
   assert.equal(recording.passages[0].url, "https://www.biblegateway.com/passage/?search=Luke%2023%3A32-43&version=NIVUK");
   assert.equal(recording.published, true);
 });
