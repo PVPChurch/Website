@@ -22,6 +22,8 @@ npm run build      # build into _site/
 
 To try the contact form locally, copy `.dev.vars.example` to `.dev.vars`, put Cloudflare's test site key `1x00000000000000000000AA` in `turnstileSiteKey` in `src/_data/site.json`, then `npm run build && npx wrangler dev`. Emails are only simulated locally.
 
+To check accessibility after a design change, run `npm start`, copy `node_modules/axe-core/axe.min.js` into `_site/`, and in a browser's console on each page run `await import("/axe.min.js"); (await axe.run()).violations` (an empty list means no problems found). Delete the copy afterwards. It has to run in a real browser, because colour contrast needs the page laid out.
+
 ## Where things are
 
 | Path | What it is |
