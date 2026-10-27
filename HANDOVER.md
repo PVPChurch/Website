@@ -13,7 +13,7 @@ Written at the end of the first session, which designed and built the site in a 
 
 - The site builds (`npm run build`, about 0.5s) and all 22 tests pass (`npm test`). Checked with axe: no WCAG 2.2 AA violations on any page.
 - It hasn't been run on this machine yet, and there's no git repo or GitHub repo yet.
-- The design is deliberately plain. Branding and visual design is a separate conversation still to have.
+- The Heather design (direction B1, picked 27 Oct) is applied. The mock-ups, including the Church blue variant, are on the "PVP Church website directions" design canvas. Not yet re-checked with axe since the redesign; colour contrasts were checked by calculation.
 
 ## To do, in order
 
