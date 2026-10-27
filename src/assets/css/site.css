@@ -160,9 +160,8 @@ main:focus { outline: none; }
 .hero picture { flex: 1 1 24rem; min-width: 0; display: block; }
 .hero img { display: block; width: 100%; height: 100%; min-height: 19rem; object-fit: cover; }
 .home > section { margin-block: 2.5rem; }
-/* The hero starts the page, and its photo credit sits right under it. */
-.home > .hero { margin-block: 0; }
-.credit { margin: 0.3rem 0 0; font-size: 0.75rem; color: var(--muted); text-align: right; }
+/* The hero starts the page. Its photo credit is in the footer. */
+.home > .hero { margin-top: 0; }
 /* One column on narrow screens; one unwrapped row from 60em (see .cards too). */
 .service-times { display: flex; flex-direction: column; gap: 0.25rem; }
 .service-times h2 { margin: 0 0 0.25rem; }
