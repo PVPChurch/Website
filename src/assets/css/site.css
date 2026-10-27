@@ -1,20 +1,33 @@
-/* A deliberately plain, accessible starting point (WCAG 2.2 AA).
-   Branding and visual design are a separate piece of work. */
+/* Heather: the design chosen in October 2026 (accessible to WCAG 2.2 AA).
+   Every colour is a token here; contrast ratios are noted against the background
+   they sit on. */
+
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url("/assets/fonts/figtree.woff2") format("woff2");
+}
 
 :root {
-  --text: #1c1f23;
-  --muted: #4a5159;          /* 8.3:1 on white */
-  --background: #ffffff;
-  --surface: #f4f6f7;
-  --border: #d5dadf;
-  --accent: #0b5563;         /* 8.0:1 on white */
-  --accent-dark: #083e48;
-  --on-accent: #ffffff;
-  --focus: #b35c00;          /* outline colour, 3:1+ against white and the accent */
-  --radius: 0.5rem;
+  --text: #2a2230;
+  --muted: #5a4f61;          /* 6.7:1 on the background, 7.4:1 on surfaces */
+  --background: #f2eef4;
+  --surface: #fbf9fc;
+  --border: #dcd3e1;
+  --accent: #5b3a6e;         /* heather: 8.1:1 on the background */
+  --accent-dark: #3f2650;
+  --on-accent: #ffffff;      /* 9.2:1 on the accent */
+  --footer: #3a2846;
+  --on-footer: #ede6f1;      /* 10.9:1 on the footer */
+  --focus: #9a4a00;          /* outline colour, 5.5:1 on the background */
+  --focus-on-dark: #f2c14e;  /* outline colour on heather and the footer, 5.5:1+ */
+  --radius: 0.75rem;
+  --radius-small: 0.5rem;
   --measure: 44rem;
-  --wide: 68rem;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --wide: 72rem;
+  font-family: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 112.5%;          /* 18px if the visitor hasn't changed their browser's default */
   line-height: 1.6;
   color: var(--text);
@@ -35,12 +48,16 @@ a:hover { color: var(--accent-dark); text-decoration-thickness: 2px; }
   outline-offset: 2px;
 }
 
-h1, h2, h3 { line-height: 1.25; }
-h1 { font-size: 2rem; margin: 0 0 1rem; }
-h2 { font-size: 1.4rem; margin: 2rem 0 0.75rem; }
-h3, .card-title { font-size: 1.15rem; margin: 0 0 0.25rem; }
+h1, h2, h3 { line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; }
+h1 { font-size: 2.25rem; margin: 0 0 1rem; color: var(--accent); }
+h2 { font-size: 1.55rem; margin: 2rem 0 0.75rem; color: var(--accent); }
+h3, .card-title { font-size: 1.05rem; margin: 0 0 0.25rem; }
 
 .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 1.25rem; }
+
+/* Keeps "Partick Victoria Park" on one line, except on narrow phones. */
+.keep-together { white-space: nowrap; }
+@media (max-width: 30rem) { .keep-together { white-space: normal; } }
 
 .skip-link {
   position: absolute;
@@ -63,57 +80,95 @@ h3, .card-title { font-size: 1.15rem; margin: 0 0 0.25rem; }
 }
 
 /* Header and menu. The menu simply wraps on small screens, with no JavaScript. */
-.site-header { border-bottom: 1px solid var(--border); }
-.header-inner { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; align-items: center; justify-content: space-between; padding-block: 1rem; }
-.site-name { font-weight: 700; font-size: 1.2rem; color: var(--text); text-decoration: none; }
-.menu { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
-.menu a { display: inline-block; padding-block: 0.4rem; /* comfortable 24px+ touch target */ }
-.menu a[aria-current] { font-weight: 700; text-decoration-thickness: 3px; }
+.header-inner { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; padding-block: 1.25rem; }
+.brand { display: flex; align-items: center; gap: 0.8rem; color: var(--text); text-decoration: none; }
+.brand:hover { color: var(--text); }
+.brand img { display: block; height: 3.5rem; width: auto; }
+.brand-text { display: flex; flex-direction: column; }
+.brand-name { font-size: 1.45rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
+.brand-sub { font-size: 0.85rem; color: var(--muted); }
+.menu { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-weight: 700; }
+.menu a { display: inline-block; padding-block: 0.4rem; /* comfortable 24px+ touch target */ text-decoration: none; }
+.menu a:hover, .menu a[aria-current] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.4em; }
 
-main { padding-block: 2rem 3rem; }
+main { padding-block: 1rem 3rem; }
 main:focus { outline: none; }
 
 .prose, .recording, .contact-form, .notice { max-width: var(--measure); }
 
 .meta { color: var(--muted); margin: 0.25rem 0; }
 
-/* Cards: the latest service, recording lists and Featured Pages. */
-.cards { list-style: none; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.card-body { padding: 1rem 1.25rem; }
-.card-body > :last-child { margin-bottom: 0; }
-/* Recording cards lead with a date block (placed first visually, last in reading order). */
-.recording-card { display: grid; grid-template-columns: auto 1fr; }
-.recording-card .card-body { grid-column: 2; grid-row: 1; align-self: center; }
-.date-block {
-  grid-column: 1; grid-row: 1; margin: 0; min-width: 5rem; padding: 0.75rem 0.5rem;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  background: var(--accent); color: var(--on-accent); line-height: 1.1; text-align: center;
-}
-.date-block .day { font-size: 1.75rem; font-weight: 700; }
-.date-block .month { text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.9rem; }
-.date-block .year { font-size: 0.8rem; opacity: 0.85; }
-.home .recording-card { max-width: 30rem; }
-
-/* Shown on Sunday mornings by watch-live.js. Respect the hidden attribute. */
-watch-live:not([hidden]) { display: block; }
-.live-banner { margin-block: 1.5rem; padding: 1.25rem 1.5rem; border-radius: var(--radius); background: var(--accent); color: var(--on-accent); }
-.live-banner h2 { margin-top: 0; }
-.live-banner .button { background: var(--on-accent); color: var(--accent-dark); }
-
 .button, button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 3rem;
   font: inherit;
-  font-weight: 600;
-  padding: 0.6rem 1.25rem;
-  border: 2px solid transparent;
-  border-radius: var(--radius);
+  font-weight: 700;
+  padding: 0 1.4rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-small);
   background: var(--accent);
   color: var(--on-accent);
   text-decoration: none;
   cursor: pointer;
 }
-button:hover { background: var(--accent-dark); }
+.button:hover, button:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: var(--on-accent); }
+.buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* On heather: the home page welcome and the Watch live banner. */
+.on-accent { background: var(--accent); color: var(--on-accent); }
+.on-accent :focus-visible { outline-color: var(--focus-on-dark); }
+.on-accent h1, .on-accent h2 { color: inherit; }
+.on-accent a:not(.button) { color: inherit; }
+.on-accent .button { background: var(--on-accent); border-color: var(--on-accent); color: var(--accent); }
+.on-accent .button:hover { background: var(--background); border-color: var(--background); color: var(--accent-dark); }
+.on-accent .button.secondary { background: transparent; color: var(--on-accent); }
+.on-accent .button.secondary:hover { background: var(--accent-dark); }
+
+/* Home page */
+.hero { display: flex; flex-wrap: wrap; border-radius: var(--radius); overflow: hidden; }
+.hero-text { flex: 1 1 22rem; min-width: 0; padding: clamp(1.75rem, 4vw, 2.75rem); display: flex; flex-direction: column; justify-content: center; }
+.hero h1 { font-size: clamp(2rem, 1.3rem + 2.6vw, 2.55rem); line-height: 1.1; }
+.hero-text p { font-size: 1.1rem; margin: 0 0 0.5rem; }
+.hero .buttons { margin-top: 1.25rem; }
+/* The build wraps the photo in <picture> (for WebP), so that's the flex item. */
+.hero picture { flex: 1 1 24rem; min-width: 0; display: block; }
+.hero img { display: block; width: 100%; height: 100%; min-height: 19rem; object-fit: cover; }
+.credit { margin: 0.5rem 0 0; font-size: 0.75rem; color: var(--muted); text-align: right; }
+.home > section { margin-block: 2.5rem; }
+.service-times { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; align-items: baseline; }
+.service-times h2 { margin: 0; color: var(--text); }
+.service-times p { margin: 0; }
+.section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.5rem; }
+.section-head h2 { margin: 0; font-size: 1.9rem; }
+.section-head a { font-weight: 700; }
+.panels { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.panel { background: var(--surface); border-radius: var(--radius); padding: 1.5rem 1.75rem; }
+.panel h2 { margin-top: 0; }
+.panel > :last-child { margin-bottom: 0; }
+.panel a { font-weight: 700; }
+
+/* Cards: recording lists. */
+.cards { list-style: none; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+.card { background: var(--surface); border-radius: var(--radius); }
+.card-body { flex: 1 1 auto; min-width: 0; }
+.card-body > :last-child { margin-bottom: 0; }
+/* Recording cards lead with a date block (placed first visually, last in reading order). */
+.recording-card { display: flex; gap: 1rem; align-items: center; padding: 0.9rem; }
+.date-block {
+  order: -1; flex: none; margin: 0; width: 4.25rem; height: 4.25rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-radius: var(--radius-small); background: var(--accent); color: var(--on-accent); line-height: 1.05; text-align: center;
+}
+.date-block .day { font-size: 1.6rem; font-weight: 700; }
+.date-block .month { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem; font-weight: 700; }
+.date-block .year { font-size: 0.68rem; opacity: 0.9; }
+.recording-card .meta { font-size: 0.85rem; }
+
+/* Shown on Sunday mornings by watch-live.js. Respect the hidden attribute. */
+watch-live:not([hidden]) { display: block; }
+.live-banner { margin-block: 1.5rem; padding: 1.25rem 1.5rem; border-radius: var(--radius); }
+.live-banner h2 { margin-top: 0; }
 
 .video { position: relative; aspect-ratio: 16 / 9; margin-block: 1.5rem; background: #000; border-radius: var(--radius); overflow: hidden; }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -138,16 +193,18 @@ button:hover { background: var(--accent-dark); }
   font: inherit;
   color: inherit;
   border: 2px solid var(--muted);
-  border-radius: var(--radius);
-  background: var(--background);
+  border-radius: var(--radius-small);
+  background: #ffffff;
 }
 .contact-form .privacy { color: var(--muted); }
 .cf-turnstile { margin-block: 1rem; }
 .notice { padding: 1rem 1.25rem; background: var(--surface); border-left: 4px solid var(--accent); }
 
-.site-footer { border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); }
-.footer-inner { display: flex; flex-wrap: wrap; gap: 0 3rem; padding-block: 1.5rem; }
-.site-footer strong { color: var(--text); }
+.site-footer { background: var(--footer); color: var(--on-footer); font-size: 0.85rem; }
+.site-footer a { color: inherit; }
+.site-footer :focus-visible { outline-color: var(--focus-on-dark); }
+.site-footer strong { color: #ffffff; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 3rem; padding-block: 1.75rem; }
 
 @media print {
   .site-header nav, .site-footer, .skip-link, watch-live { display: none !important; }

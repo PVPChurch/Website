@@ -9,6 +9,8 @@
     </a></h{{ hl }}>
     {%- if r.passages.length %}
     <p class="meta">{% for passage in r.passages %}{{ passage.text }}{% if not loop.last %}; {% endif %}{% endfor %}</p>
+    {%- elif not r.sermonTitle %}
+    <p class="meta" aria-hidden="true">{{ r.displayDate | replace("Sunday ", "") }}</p>
     {%- endif %}
   </div>
   <p class="date-block" aria-hidden="true"><span class="day">{{ r.calendar.day }}</span> <span class="month">{{ r.calendar.month }}</span> <span class="year">{{ r.calendar.year }}</span></p>

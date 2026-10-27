@@ -1,10 +1,16 @@
 import { RenderPlugin } from "@11ty/eleventy";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { buildMenu, groupSeries } from "./lib/content.js";
+import { keepTogether } from "./lib/text.js";
 import site from "./src/_data/site.json" with { type: "json" };
 
 export default function (eleventyConfig) {
-  eleventyConfig.addPassthroughCopy({ "src/assets": "assets", "src/media": "media" });
+  eleventyConfig.addPassthroughCopy({
+    "src/assets": "assets",
+    "src/media": "media",
+    // Self-hosted, so visitors' browsers never contact Google Fonts.
+    "node_modules/@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2": "assets/fonts/figtree.woff2",
+  });
 
   // Renders Markdown that Editors write in single-file entries (e.g. the home page intro).
   eleventyConfig.addPlugin(RenderPlugin);
@@ -56,6 +62,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("isCurrent", (itemUrl, pageUrl) =>
     itemUrl === "/" ? pageUrl === "/" : String(pageUrl).startsWith(itemUrl) ||
       (itemUrl === "/recordings/" && String(pageUrl).startsWith("/series/")));
+
+  // "Partick Victoria Park Church" -> keeps "Partick Victoria Park" on one line in headings.
+  const nameWithoutLastWord = site.name.split(" ").slice(0, -1).join(" ");
+  eleventyConfig.addFilter("keepName", (text) => keepTogether(text, nameWithoutLastWord));
 
   eleventyConfig.addFilter("absoluteUrl", (path, base) => new URL(path, base).toString());
 

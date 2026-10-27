@@ -141,9 +141,30 @@ content:
       - name: intro
         label: Welcome text
         type: rich-text
+        description: Keep it short. It sits beside the photo at the top of the home page.
         options:
           switcher: false
           media: false
+      - name: services
+        label: Sunday services
+        type: object
+        list: true
+        description: Shown under "Join us on Sundays". Press Add for another service.
+        fields:
+          - name: time
+            label: Time
+            type: string
+            required: true
+            description: "For example: 11am"
+            options:
+              maxlength: 12
+          - name: description
+            label: Description
+            type: string
+            required: true
+            description: "For example: morning service, also live on YouTube"
+            options:
+              maxlength: 80
 
   - name: gallery
     label: Gallery

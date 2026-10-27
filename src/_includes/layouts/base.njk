@@ -19,7 +19,14 @@
 
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="site-name" href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>{{ site.name }}</a>
+      <a class="brand" href="/"{% if page.url == "/" %} aria-current="page"{% endif %}>
+        {#- The Church of Scotland's own emblem: never redraw or recolour it. Its meaning is in the text beside it. #}
+        <img eleventy:ignore src="/assets/images/church-of-scotland.svg" alt="" width="50" height="63">
+        <span class="brand-text">
+          <span class="brand-name">{{ site.name | keepName | safe }}</span>
+          <span class="brand-sub">{{ site.denomination }}, Partick</span>
+        </span>
+      </a>
       <nav aria-label="Main">
         <ul class="menu">
           {%- for item in collections.menu %}
@@ -45,7 +52,8 @@
         Phone: <a href="tel:{{ site.phoneLink }}">{{ site.phone }}</a>
       </p>
       <p>
-        {{ site.denomination }}. Scottish Charity No: {{ site.charityNumber }}<br>
+        {{ site.denomination }}<br>
+        Scottish Charity No: {{ site.charityNumber }}<br>
         <a href="https://app.pagescms.org">Editor sign-in</a> · <a href="/editing-guide/">Editing guide</a>
       </p>
     </div>

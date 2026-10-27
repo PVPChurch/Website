@@ -38,6 +38,8 @@ The website updates about a minute later. If a service hasn't appeared by Sunday
 2. Click into the text and change it. To add a heading, a list, a link or a picture, **type `/`** and choose from the menu that appears.
 3. Press **Save**.
 
+The top of the home page is under **Home page welcome**: the heading, a short welcome, and the **Sunday services** times. If a service time changes, change it there.
+
 ## Adding a new page
 
 1. Click **Pages**, then **Add an entry**.

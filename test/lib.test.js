@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { youtubeId } from "../lib/youtube.js";
 import { bibleGatewayUrl, isKnownBook } from "../lib/passages.js";
-import { slug, longDate, toDate } from "../lib/text.js";
+import { slug, longDate, toDate, keepTogether } from "../lib/text.js";
 import { normaliseRecording, normalisePage, buildMenu, groupSeries, ContentError } from "../lib/content.js";
 
 const options = { bibleVersion: "NIVUK" };
@@ -45,6 +45,15 @@ test("slug and dates", () => {
   assert.equal(longDate(toDate("2026-10-25")), "Sunday 25 October 2026");
   assert.equal(longDate(toDate(new Date("2026-10-25T00:00:00Z"))), "Sunday 25 October 2026");
   assert.equal(toDate("not a date"), null);
+});
+
+test("keepTogether keeps the church's name on one line, and escapes what Editors type", () => {
+  assert.equal(
+    keepTogether("You're welcome at Partick Victoria Park Church", "Partick Victoria Park"),
+    `You're welcome at <span class="keep-together">Partick Victoria Park</span> Church`,
+  );
+  assert.equal(keepTogether("Fish & <chips>", "Partick Victoria Park"), "Fish &amp; &lt;chips&gt;");
+  assert.equal(keepTogether("Welcome", ""), "Welcome");
 });
 
 test("a complete Service Recording", () => {
