@@ -79,7 +79,9 @@ h3, .card-title { font-size: 1.05rem; margin: 0 0 0.25rem; }
   white-space: nowrap;
 }
 
-/* Header and menu. The menu simply wraps on small screens, with no JavaScript. */
+/* Header and menu. The menu simply wraps on small screens, with no JavaScript;
+   the border keeps a wrapped menu visibly part of the header. */
+.site-header { border-bottom: 1px solid var(--border); }
 .header-inner { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; padding-block: 1.25rem; }
 .brand { display: flex; align-items: center; gap: 0.8rem; color: var(--text); text-decoration: none; }
 .brand:hover { color: var(--text); }
@@ -91,7 +93,7 @@ h3, .card-title { font-size: 1.05rem; margin: 0 0 0.25rem; }
 .menu a { display: inline-block; padding-block: 0.4rem; /* comfortable 24px+ touch target */ text-decoration: none; }
 .menu a:hover, .menu a[aria-current] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.4em; }
 
-main { padding-block: 1rem 3rem; }
+main { padding-block: 1.5rem 3rem; }
 main:focus { outline: none; }
 
 .prose, .contact-form, .notice { max-width: var(--measure); }
@@ -134,11 +136,18 @@ main:focus { outline: none; }
 /* The build wraps the photo in <picture> (for WebP), so that's the flex item. */
 .hero picture { flex: 1 1 24rem; min-width: 0; display: block; }
 .hero img { display: block; width: 100%; height: 100%; min-height: 19rem; object-fit: cover; }
-.credit { margin: 0.5rem 0 0; font-size: 0.75rem; color: var(--muted); text-align: right; }
 .home > section { margin-block: 2.5rem; }
-.service-times { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; align-items: baseline; }
-.service-times h2 { margin: 0; color: var(--text); }
+/* The hero starts the page, and its photo credit sits right under it. */
+.home > .hero { margin-block: 0; }
+.credit { margin: 0.3rem 0 0; font-size: 0.75rem; color: var(--muted); text-align: right; }
+/* One column on narrow screens; one unwrapped row from 60em (see .cards too). */
+.service-times { display: flex; flex-direction: column; gap: 0.25rem; }
+.service-times h2 { margin: 0 0 0.25rem; color: var(--text); }
 .service-times p { margin: 0; }
+@media (min-width: 60em) {
+  .service-times { flex-direction: row; flex-wrap: nowrap; align-items: baseline; gap: 2rem; }
+  .service-times h2 { margin: 0; }
+}
 .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1.5rem; }
 .section-head h2 { margin: 0; font-size: 1.9rem; }
 .section-head a { font-weight: 700; }
@@ -148,8 +157,10 @@ main:focus { outline: none; }
 .panel > :last-child { margin-bottom: 0; }
 .panel a { font-weight: 700; }
 
-/* Cards: recording lists. */
-.cards { list-style: none; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+/* Cards: recording lists. One column on narrow screens, three across from 60em,
+   never a part-filled row in between. */
+.cards { list-style: none; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 60em) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .card { background: var(--surface); border-radius: var(--radius); }
 .card-body { flex: 1 1 auto; min-width: 0; }
 .card-body > :last-child { margin-bottom: 0; }
