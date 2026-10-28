@@ -51,7 +51,7 @@ Do these in order. Use the church's role mailbox for every account, never a pers
    - Build command: `npm run build`
    - Deploy command: `npx wrangler deploy`
 
-   Then, on the new Worker, go to *Settings → Domains & Routes* and add `partickvictoriaparkchurch.uk` and `www.partickvictoriaparkchurch.uk` as custom domains. Under *Settings → Builds*, check that failed-build emails go to you. That email is how you'll hear if an Editor's change didn't go live.
+   Then open the Worker itself (*Workers & Pages → pvpsite → Settings → Domains & Routes → Add*) and add `partickvictoriaparkchurch.uk` and `www.partickvictoriaparkchurch.uk`, each as a **Custom domain**. Not from the domain's own *Workers Routes* page, which only offers routes, and don't create DNS records for them yourself: Cloudflare manages them. Optionally, *Rules → Templates → "Redirect from WWW to root"* gives the site one address. Under *Settings → Builds*, check that failed-build emails go to you. That email is how you'll hear if an Editor's change didn't go live.
 5. **Turnstile (spam protection for the contact form).** In Cloudflare go to *Turnstile → Add widget*, for the domain above, in Managed mode. Put the **site key** in `turnstileSiteKey` in `src/_data/site.json`. Add the **secret key** to the Worker as a secret called `TURNSTILE_SECRET_KEY` (*Settings → Variables and Secrets*, type Secret).
 6. **Email for the contact form.**
    - *Email → Email Routing*: turn it on for the domain, and add the church office's real inbox as a **destination address**. Verify it from the email Cloudflare sends.
