@@ -7,7 +7,7 @@ title: Home
   <section class="hero on-accent" aria-labelledby="welcome-heading">
     <div class="hero-text">
       <h1 id="welcome-heading">{{ home.heading | keepName | safe }}</h1>
-      {{ home.intro | renderContent("md") | safe }}
+      {{ home.intro | renderContent("md") | cleanEditorHtml | safe }}
       <p class="buttons">
         <a class="button" href="/contact/">Find us</a>
         {%- if latest %}

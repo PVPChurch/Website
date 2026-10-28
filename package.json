@@ -19,6 +19,7 @@
     "@11ty/eleventy-img": "^7.1.1",
     "@fontsource-variable/figtree": "^5.3.0",
     "axe-core": "^4.14.0",
+    "sanitize-html": "^2.18.1",
     "wrangler": "^4.153.0"
   }
 }

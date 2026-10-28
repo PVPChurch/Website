@@ -72,4 +72,6 @@ A problem that would break a page fails the build, for example a recording whose
 
 Anything merely missing doesn't fail the build. A Service Recording with no Sermon Title or Bible Passage is **Incomplete**: it still appears on the site, with its date as the headline. Bible Passages are shown exactly as written. Service Recordings have no pages of their own: every list links straight to the video on YouTube (docs/adr/0004).
 
+Editors' rich text (Pages and the home page welcome) is cleaned at build time by `lib/sanitize.js`: only ordinary formatting, links and images get through, so nobody who can edit content can put a script or a form on the site. Everything else Editors type is escaped by the templates.
+
 Most mistakes are stopped earlier, in Pages CMS, by required fields and format checks (`.pages.yml`).

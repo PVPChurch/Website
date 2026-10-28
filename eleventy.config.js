@@ -2,6 +2,7 @@ import { RenderPlugin } from "@11ty/eleventy";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { buildMenu, groupSeries } from "./lib/content.js";
 import { keepTogether } from "./lib/text.js";
+import { cleanEditorHtml } from "./lib/sanitize.js";
 import site from "./src/_data/site.json" with { type: "json" };
 
 export default function (eleventyConfig) {
@@ -62,6 +63,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("isCurrent", (itemUrl, pageUrl) =>
     itemUrl === "/" ? pageUrl === "/" : String(pageUrl).startsWith(itemUrl) ||
       (itemUrl === "/recordings/" && String(pageUrl).startsWith("/series/")));
+
+  // Everything Editors write as rich text goes through this before it reaches a page.
+  eleventyConfig.addFilter("cleanEditorHtml", cleanEditorHtml);
 
   // "Partick Victoria Park Church" -> keeps "Partick Victoria Park" on one line in headings.
   const nameWithoutLastWord = site.name.split(" ").slice(0, -1).join(" ");

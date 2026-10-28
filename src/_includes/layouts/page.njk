@@ -3,7 +3,8 @@ layout: layouts/base.njk
 ---
 <article class="prose">
   <h1>{{ entry.title }}</h1>
-  {{ content | safe }}
+  {#- Editors' text: cleaned so it can't add scripts or other unsafe HTML (lib/sanitize.js). #}
+  {{ content | cleanEditorHtml | safe }}
 </article>
 
 {% if entry.contactForm %}
