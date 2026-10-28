@@ -64,7 +64,11 @@ Do these in order. Use the church's role mailbox for every account, never a pers
 8. **Recent recordings.** In GitHub go to *Actions → Import service recordings → Run workflow*. It adds every recent Sunday service on the channel that isn't already on the site. YouTube's feed only lists the latest 15 videos, so anything older has to be added by hand in Pages CMS.
 9. **Pages CMS.** Sign in at [app.pagescms.org](https://app.pagescms.org) with your GitHub account, install the Pages CMS GitHub App on the organisation, and open this repository. To add an Editor, invite them by email under the repository's settings in Pages CMS. They don't need a GitHub account.
 10. **Visitor statistics.** In Cloudflare go to *Analytics & Logs → Web Analytics → Add a site*. For a domain on Cloudflare, automatic setup works with no code. Otherwise put the token in `webAnalyticsToken` in `site.json`. It uses no cookies, so no cookie banner is needed.
-11. **Launch day.** Put a notice on the old site's home page and Video Sermons page saying the website has moved, with a link. Update the YouTube channel description and any Google Business listing.
+11. **Before launch, check with the church.**
+    - Go through the Editing Guide (`src/editing-guide.md`) in the real Pages CMS. Its button names and sign-in steps came from the Pages CMS docs, not from using the app. Then have Andy (the minister) try it.
+    - The What's On text came from the old site, and some details were never there (e.g. where Wednesday Fellowship meets).
+    - The old site linked a Facebook page called "Partick South Parish Church". It isn't on the new site yet: is it still the right page, and should it be?
+12. **Launch day.** Put a notice on the old site's home page and Video Sermons page saying the website has moved, with a link. Update the YouTube channel description and any Google Business listing.
 
 ## How content is checked
 
