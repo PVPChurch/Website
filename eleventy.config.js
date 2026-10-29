@@ -9,6 +9,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({
     "src/assets": "assets",
     "src/media": "media",
+    // Browsers and bots ask for these at the root whatever the page says; without them
+    // every such request is a logged 404. Made from src/assets/favicon.svg.
+    "src/root/favicon.ico": "favicon.ico",
+    "src/root/apple-touch-icon.png": "apple-touch-icon.png",
     // Self-hosted, so visitors' browsers never contact Google Fonts.
     "node_modules/@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2": "assets/fonts/figtree.woff2",
   });
