@@ -87,6 +87,7 @@ test("every message turned down logs why, without logging what the visitor wrote
     for (const [label, fields, options, expected, tweak] of [
       ["no secret", GOOD, {}, /TURNSTILE_SECRET_KEY isn't set/, (env) => delete env.TURNSTILE_SECRET_KEY],
       ["no token", { ...GOOD, "cf-turnstile-response": "" }, {}, /no Turnstile token/],
+      ["no recipient", GOOD, {}, /CONTACT_TO isn't set/, (env) => delete env.CONTACT_TO],
       ["bot check failed", GOOD, { turnstile: { success: false, "error-codes": ["invalid-input-response"] } }, /Turnstile rejected/],
       ["bad email", { ...GOOD, email: "not an email" }, {}, /email address not valid/],
       ["too long", { ...GOOD, message: "x".repeat(5001) }, {}, /message too long/],

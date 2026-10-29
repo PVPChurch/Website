@@ -19,14 +19,17 @@
   "send_email": [{ "name": "EMAIL" }],
 
   "vars": {
-    // An Email Routing address that forwards to the church's inbox (README step 6).
-    // Set here, not in the dashboard: every deploy replaces dashboard variables with these.
-    "CONTACT_TO": "contact@partickvictoriaparkchurch.uk",
     // Must be on the domain onboarded to Email Sending (README step 6).
     "CONTACT_FROM": "website@partickvictoriaparkchurch.uk"
   },
-  // TURNSTILE_SECRET_KEY is a secret: set it in the Cloudflare dashboard, or
-  // `npx wrangler secret put TURNSTILE_SECRET_KEY`. Never commit it.
+  // Two settings are Secrets, set on the Worker in the Cloudflare dashboard (Settings →
+  // Variables and Secrets, NOT the Build section) or with `npx wrangler secret put`:
+  // - TURNSTILE_SECRET_KEY, from the Turnstile widget.
+  // - CONTACT_TO, the church inbox Contact Messages go to. It must be a verified
+  //   destination address in Email Routing itself: Cloudflare won't send to an Email
+  //   Routing address like contact@ that only forwards there. It's a Secret so the real
+  //   inbox address stays out of this public repo.
+  // Secrets survive deploys; plain variables set in the dashboard don't.
 
   "observability": { "enabled": true }
 }

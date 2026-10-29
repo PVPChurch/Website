@@ -51,6 +51,11 @@ export async function handleContact(request, env, fetchImpl = fetch) {
 
   if (!(await isHuman(field("cf-turnstile-response"), request, env, fetchImpl))) return notSent(request);
 
+  if (!env.CONTACT_TO) {
+    console.error("Contact message not sent: CONTACT_TO isn't set on this Worker. Add it under Settings → Variables and Secrets, as type Secret: a verified destination address from Email Routing.");
+    return notSent(request);
+  }
+
   try {
     await env.EMAIL.send({
       to: env.CONTACT_TO,
