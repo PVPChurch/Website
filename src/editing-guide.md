@@ -12,10 +12,9 @@ This page is for the church members who keep the website up to date. Print it ou
 
 ## Signing in
 
-1. Go to **[app.pagescms.org](https://app.pagescms.org)** (there's also an "Editor sign-in" link at the bottom of every page on the website).
+1. Go to **[app.pagescms.org/pvpchurch/website](https://app.pagescms.org/pvpchurch/website)** (there's also an "Editor sign-in" link at the bottom of every page on the website).
 2. Enter your email address and press the sign-in button.
-3. Open the email that arrives and click the link in it. You're now signed in.
-4. Choose **the church website** from the list.
+3. Open the email that arrives and click the link in it. You're now signed in, and in the church website. (If you see a list instead, choose **the church website** from it.)
 
 The first time, you'll need the invitation email you were sent. If you can't find it, ask Andrew to send another.
 
