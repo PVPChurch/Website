@@ -32,7 +32,7 @@ To check accessibility after a design change, run `npm start`, copy `node_module
 | `src/content/pages/` | One Markdown file per Page; the file name is its address (`about.md` → `/about/`) |
 | `src/_data/home.json` | The welcome text on the home page |
 | `src/_data/gallery.json` | Gallery photos, captions and descriptions |
-| `src/_data/site.json` | Church details and settings for Maintainers: name, charity number, YouTube channel, Bible translation, the Sunday "Watch live" window, menu positions of the fixed sections |
+| `src/_data/site.json` | Church details and settings for Maintainers: name, charity number, YouTube channel, Turnstile site key, the Sunday "Watch live" window, menu positions of the fixed sections |
 | `src/media/` | Images uploaded by Editors (resized at build time) |
 | `lib/content.js` | The rules for content: what fails the build and what just makes a recording Incomplete |
 | `scripts/import-recordings.js` | Creates Service Recordings from the YouTube channel's feed |
@@ -40,36 +40,21 @@ To check accessibility after a design change, run `npm start`, copy `node_module
 | `.pages.yml` | What Editors see in Pages CMS |
 | `wrangler.jsonc` | Cloudflare deployment settings |
 
-## Setting it up from scratch
+## How it runs
 
-Do these in order. Use the church's role mailbox for every account, never a personal one, and turn on two-factor authentication everywhere. (To start with, the role mailbox can be a free Gmail or Outlook account. Once the domain is on Cloudflare, Email Routing can give it a proper address on the church domain.)
+Every account belongs to the church's role mailbox, not to a person, and has two-factor authentication on.
 
-1. **GitHub.** Create a free organisation owned by the role mailbox, and add your own GitHub account as an owner. Put this repository in it, public.
-2. **Cloudflare account.** Sign up with the role mailbox.
-3. **Domain.** Register `partickvictoriaparkchurch.uk` in the Cloudflare account (*Domain Registration → Register Domains*) if it offers `.uk`. Otherwise register it at another registrar, also under the role mailbox, then add it to Cloudflare and change its nameservers to Cloudflare's.
-4. **Deploy.** In Cloudflare go to *Workers & Pages → Create → Import a repository*, choose this repo, and set:
-   - Build command: `npm run build`
-   - Deploy command: `npx wrangler deploy`
+- **Code and content**: this GitHub repository, in the PVPChurch organisation. Editors' changes arrive as commits "via Pages CMS".
+- **Deploys**: Cloudflare Workers Builds builds and deploys every push to `main` in about a minute. Each commit gets a "Workers Builds" check. If a build fails, the previous version stays live and Cloudflare emails the Maintainer.
+- **Domain**: `partickvictoriaparkchurch.uk` is registered at Namecheap, so it must be renewed there. Its DNS is on Cloudflare. The root and `www` are custom domains on the Worker (*Settings → Domains & Routes*), and a redirect rule sends `www` to the root.
+- **Contact form** (`worker/index.js`): spam protection is Cloudflare Turnstile, with the site key in `site.json`. Two Worker secrets live under *Settings → Variables and Secrets* (not the *Build* section, which the running site can't see):
+  - `TURNSTILE_SECRET_KEY`
+  - `CONTACT_TO`, the inbox messages go to. On Cloudflare's free plan it must be a verified destination address in *Email Routing*, not an address that forwards to one, or sending fails with `E_RECIPIENT_NOT_ALLOWED`. To change it, verify the new address there first, then update the secret.
 
-   Then open the Worker itself (*Workers & Pages → pvpsite → Settings → Domains & Routes → Add*) and add `partickvictoriaparkchurch.uk` and `www.partickvictoriaparkchurch.uk`, each as a **Custom domain**. Not from the domain's own *Workers Routes* page, which only offers routes, and don't create DNS records for them yourself: Cloudflare manages them. Optionally, *Rules → Templates → "Redirect from WWW to root"* gives the site one address. Under *Settings → Builds*, check that failed-build emails go to you. That email is how you'll hear if an Editor's change didn't go live.
-5. **Turnstile (spam protection for the contact form).** In Cloudflare go to *Turnstile → Add widget*, for the domain above, in Managed mode. Put the **site key** in `turnstileSiteKey` in `src/_data/site.json`. Add the **secret key** to the Worker as a secret called `TURNSTILE_SECRET_KEY` (*Settings → Variables and Secrets*, type Secret). That's the section near the top of Settings, not the one under *Build*, which the running site can't see.
-6. **Email for the contact form.**
-   - *Email → Email Routing*: turn it on for the domain, and add the church office's real inbox as a **destination address**. Verify it from the email Cloudflare sends.
-   - Optionally, create a routing rule so `contact@partickvictoriaparkchurch.uk` forwards to that inbox, as an address for people to write to directly.
-   - *Compute → Email Service → Email Sending*: **Onboard Domain** for the same domain. Cloudflare adds the DNS records.
-   - Add a second Worker secret, `CONTACT_TO`, set to the **verified destination address itself** (the real inbox). It must be that address: on the free plan Cloudflare only sends to verified destination addresses, and an Email Routing address like `contact@` that merely forwards there is refused (`E_RECIPIENT_NOT_ALLOWED`). It's a secret so the inbox address stays out of this public repo.
-   - The sender, `CONTACT_FROM`, is in `wrangler.jsonc`. Change it there rather than in the dashboard: each deploy replaces plain dashboard variables with the ones in `wrangler.jsonc`. Secrets aren't affected.
-
-   If a test message lands on "message not sent", the Worker's *Logs* tab says why.
-7. **YouTube channel ID.** Run `npm run import-recordings:dry-run`. If `channelId` is empty in `src/_data/site.json`, it looks the ID up from the handle and prints it. Paste it into `site.json` and commit. (Or find it in YouTube: the channel's *About → Share channel → Copy channel ID*.)
-8. **Recent recordings.** In GitHub go to *Actions → Import service recordings → Run workflow*. It adds every recent Sunday service on the channel that isn't already on the site. YouTube's feed only lists the latest 15 videos, so anything older has to be added by hand in Pages CMS.
-9. **Pages CMS.** Sign in at [app.pagescms.org](https://app.pagescms.org) with your GitHub account, install the Pages CMS GitHub App on the organisation, and open this repository. To add an Editor, invite them by email under the repository's settings in Pages CMS. They don't need a GitHub account.
-10. **Visitor statistics.** In Cloudflare go to *Analytics & Logs → Web Analytics → Add a site*. For a domain on Cloudflare, automatic setup works with no code. Otherwise put the token in `webAnalyticsToken` in `site.json`. It uses no cookies, so no cookie banner is needed.
-11. **Before launch, check with the church.**
-    - Go through the Editing Guide (`src/editing-guide.md`) in the real Pages CMS. Its button names and sign-in steps came from the Pages CMS docs, not from using the app. Then have Andy (the minister) try it.
-    - The What's On text came from the old site, and some details were never there (e.g. where Wednesday Fellowship meets).
-    - The old site linked a Facebook page called "Partick South Parish Church". It isn't on the new site yet: is it still the right page, and should it be?
-12. **Launch day.** Put a notice on the old site's home page and Video Sermons page saying the website has moved, with a link. Update the YouTube channel description and any Google Business listing.
+  The sender, `CONTACT_FROM`, is in `wrangler.jsonc`: each deploy replaces plain dashboard variables with the ones there. If a message isn't sent, the Worker's *Logs* tab says why.
+- **Recording import**: a GitHub Actions workflow runs on Sunday afternoons and evenings. It can also be run from the "Check YouTube for new services" button in Pages CMS, or from *Actions → Import service recordings → Run workflow*. YouTube's feed only lists the latest 15 videos, so anything older has to be added by hand.
+- **Editors**: [Pages CMS](https://app.pagescms.org) reaches the repository through its GitHub App, which is installed on the organisation for this repository only. Invite or remove Editors by email in the repository's settings in Pages CMS. Editors don't need GitHub accounts.
+- **Visitor statistics**: Cloudflare Web Analytics, set up automatically by Cloudflare. It uses no cookies, so the site needs no cookie banner.
 
 ## How content is checked
 

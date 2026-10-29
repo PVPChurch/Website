@@ -1,5 +1,5 @@
 // Cloudflare deployment. Workers Builds runs `npm run build` then `npx wrangler deploy`
-// on every commit to main. See README.md for the one-off setup.
+// on every commit to main. See "How it runs" in README.md.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "pvpsite",

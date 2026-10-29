@@ -73,22 +73,11 @@ export function recordingFile(video, date) {
   ].join("\n");
 }
 
-async function channelIdFromHandle(handle) {
-  const response = await fetch(`https://www.youtube.com/${handle}`, { headers: { "accept-language": "en-GB" } });
-  const html = await response.text();
-  return html.match(/"(?:channelId|externalId)":"(UC[\w-]{22})"/)?.[1]
-    ?? html.match(/youtube\.com\/channel\/(UC[\w-]{22})/)?.[1]
-    ?? null;
-}
-
 async function main() {
   const dryRun = process.argv.includes("--dry-run");
   const site = JSON.parse(await readFile(SITE, "utf8"));
-  const { handle, channelId: configured } = site.youtube;
-
-  const channelId = configured || await channelIdFromHandle(handle);
-  if (!channelId) throw new Error(`Couldn't find the channel ID for ${handle}. Add it to src/_data/site.json.`);
-  if (!configured) console.log(`Tip: add "channelId": "${channelId}" to src/_data/site.json.`);
+  const { channelId } = site.youtube;
+  if (!channelId) throw new Error("No YouTube channel ID in src/_data/site.json.");
 
   const response = await fetch(feedUrl(channelId));
   if (!response.ok) throw new Error(`YouTube feed returned ${response.status}.`);
