@@ -79,6 +79,31 @@ test("messages that fail the bot check, or are incomplete, aren't sent", async (
   }
 });
 
+test("every message turned down logs why, without logging what the visitor wrote", async () => {
+  const logged = [];
+  const { warn, error } = console;
+  console.warn = console.error = (...args) => logged.push(args.join(" "));
+  try {
+    for (const [label, fields, options, expected, tweak] of [
+      ["no secret", GOOD, {}, /TURNSTILE_SECRET_KEY isn't set/, (env) => delete env.TURNSTILE_SECRET_KEY],
+      ["no token", { ...GOOD, "cf-turnstile-response": "" }, {}, /no Turnstile token/],
+      ["bot check failed", GOOD, { turnstile: { success: false, "error-codes": ["invalid-input-response"] } }, /Turnstile rejected/],
+      ["bad email", { ...GOOD, email: "not an email" }, {}, /email address not valid/],
+      ["too long", { ...GOOD, message: "x".repeat(5001) }, {}, /message too long/],
+      ["send failed", GOOD, { sendFails: true }, /E_SENDER_NOT_VERIFIED/],
+    ]) {
+      logged.length = 0;
+      const { env, fetchImpl } = setup(options);
+      tweak?.(env);
+      await handleContact(post(fields), env, fetchImpl);
+      assert.match(logged.join("\n"), expected, label);
+      assert.doesNotMatch(logged.join("\n"), /Jean|jean@example|baptism/, label);
+    }
+  } finally {
+    Object.assign(console, { warn, error });
+  }
+});
+
 test("if Cloudflare can't send the email, the visitor is told", async () => {
   const { env, fetchImpl } = setup({ sendFails: true });
   const originalError = console.error;

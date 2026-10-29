@@ -23,10 +23,13 @@ const notSent = (request) => redirect(request, "/message-not-sent/");
 export async function handleContact(request, env, fetchImpl = fetch) {
   if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: { allow: "POST" } });
 
+  // Every reason for turning a message down is logged (never what the visitor wrote),
+  // so the Worker's Logs tab always says why someone saw "message not sent".
   let form;
   try {
     form = await request.formData();
   } catch {
+    console.warn("Contact message not sent: the form data couldn't be read.");
     return notSent(request);
   }
   const field = (name) => String(form.get(name) ?? "").trim();
@@ -35,10 +38,16 @@ export async function handleContact(request, env, fetchImpl = fetch) {
   if (field("website")) return sent(request);
 
   const message = { name: field("name"), email: field("email"), message: field("message") };
-  const invalid =
-    !message.name || !message.message || !EMAIL.test(message.email) ||
-    Object.entries(LIMITS).some(([key, max]) => message[key].length > max);
-  if (invalid) return notSent(request);
+  const problems = [
+    !message.name && "no name",
+    !message.message && "no message",
+    !EMAIL.test(message.email) && "email address not valid",
+    ...Object.entries(LIMITS).filter(([key, max]) => message[key].length > max).map(([key]) => `${key} too long`),
+  ].filter(Boolean);
+  if (problems.length) {
+    console.warn("Contact message not sent:", problems.join(", "));
+    return notSent(request);
+  }
 
   if (!(await isHuman(field("cf-turnstile-response"), request, env, fetchImpl))) return notSent(request);
 
@@ -59,7 +68,14 @@ export async function handleContact(request, env, fetchImpl = fetch) {
 }
 
 async function isHuman(token, request, env, fetchImpl) {
-  if (!token || !env.TURNSTILE_SECRET_KEY) return false;
+  if (!env.TURNSTILE_SECRET_KEY) {
+    console.error("Contact message not sent: TURNSTILE_SECRET_KEY isn't set on this Worker. Add it under Settings → Variables and Secrets, as type Secret.");
+    return false;
+  }
+  if (!token) {
+    console.warn("Contact message not sent: no Turnstile token (the 'verify you are human' check didn't finish).");
+    return false;
+  }
   const body = new FormData();
   body.append("secret", env.TURNSTILE_SECRET_KEY);
   body.append("response", token);
