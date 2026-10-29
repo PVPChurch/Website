@@ -55,9 +55,9 @@ Do these in order. Use the church's role mailbox for every account, never a pers
 5. **Turnstile (spam protection for the contact form).** In Cloudflare go to *Turnstile → Add widget*, for the domain above, in Managed mode. Put the **site key** in `turnstileSiteKey` in `src/_data/site.json`. Add the **secret key** to the Worker as a secret called `TURNSTILE_SECRET_KEY` (*Settings → Variables and Secrets*, type Secret).
 6. **Email for the contact form.**
    - *Email → Email Routing*: turn it on for the domain, and add the church office's real inbox as a **destination address**. Verify it from the email Cloudflare sends.
-   - Create a routing rule so `office@partickvictoriaparkchurch.uk` forwards to that inbox. Visitors' messages are sent there.
+   - Create a routing rule so `contact@partickvictoriaparkchurch.uk` forwards to that inbox. Visitors' messages are sent there.
    - *Compute → Email Service → Email Sending*: **Onboard Domain** for the same domain. Cloudflare adds the DNS records.
-   - If you choose different addresses, change `CONTACT_TO` and `CONTACT_FROM` in `wrangler.jsonc`.
+   - If you choose different addresses, change `CONTACT_TO` and `CONTACT_FROM` in `wrangler.jsonc`, not in the Worker's dashboard settings: each deploy replaces dashboard variables with the ones in `wrangler.jsonc`.
 
    On the free plan, Cloudflare only sends to verified destination addresses, which is all we need.
 7. **YouTube channel ID.** Run `npm run import-recordings:dry-run`. If `channelId` is empty in `src/_data/site.json`, it looks the ID up from the handle and prints it. Paste it into `site.json` and commit. (Or find it in YouTube: the channel's *About → Share channel → Copy channel ID*.)

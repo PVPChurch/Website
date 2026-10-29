@@ -19,8 +19,9 @@
   "send_email": [{ "name": "EMAIL" }],
 
   "vars": {
-    // Must be verified in Email Routing (README step 6).
-    "CONTACT_TO": "office@partickvictoriaparkchurch.uk",
+    // An Email Routing address that forwards to the church's inbox (README step 6).
+    // Set here, not in the dashboard: every deploy replaces dashboard variables with these.
+    "CONTACT_TO": "contact@partickvictoriaparkchurch.uk",
     // Must be on the domain onboarded to Email Sending (README step 6).
     "CONTACT_FROM": "website@partickvictoriaparkchurch.uk"
   },
