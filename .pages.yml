@@ -100,7 +100,7 @@ content:
       - name: photo
         label: Main photo
         type: object
-        description: Optional. Shown beside the text on a computer, and under the title on a phone. Also the picture people see when the page is shared on social media or in a message.
+        description: Optional. Shown at the top right of the text, with the text running alongside (above the text on a phone). Also the picture people see when the page is shared on social media or in a message.
         fields:
           - name: image
             label: Photo

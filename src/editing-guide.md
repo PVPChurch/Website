@@ -39,7 +39,7 @@ The website updates about a minute later. If a service hasn't appeared by Sunday
 
 A page can have photos too. Give each one a description of what's in it, for people who can't see it.
 
-- **Main photo**: one photo beside the text on a computer, or under the title on a phone. It's also the picture people see when the page is shared on Facebook or WhatsApp.
+- **Main photo**: one photo at the top right of the text, with the text running alongside it (on a phone it goes above the text). It's also the picture people see when the page is shared on Facebook or WhatsApp.
 - **More photos**: as many as you like, in columns under the text.
 
 The top of the home page is under **Home page welcome**: the heading, a short welcome, and the **Sunday services** times. If a service time changes, change it there.

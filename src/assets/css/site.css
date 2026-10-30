@@ -227,14 +227,13 @@ watch-live:not([hidden]) { display: block; }
 @media (min-width: 60em) { .photo-grid { columns: 4; } }
 .photo-grid li { break-inside: avoid; margin-bottom: 0.75rem; }
 .prose img { border-radius: var(--radius); }
-/* A Page's photo: under the heading on phones; on wide screens, beside the text in the space its column leaves. */
+/* A Page's main photo: above the text on phones, floated right within it from tablet width.
+   The text block contains the float, so whatever follows (like the contact form) starts below it. */
+.prose { display: flow-root; }
 .page-photo { margin-bottom: 1.5rem; }
 .page-photo img { display: block; width: 100%; border-radius: var(--radius); }
-@media (min-width: 60em) {
-  .page.has-photo { display: grid; grid-template-columns: minmax(0, var(--measure)) minmax(16rem, 1fr); column-gap: 3rem; align-items: start; }
-  .page.has-photo > h1 { grid-column: 1 / -1; }
-  .page.has-photo > .page-photo { grid-column: 2; grid-row: 2; margin-top: 0.25rem; }
-  .page.has-photo > .page-main { grid-column: 1; grid-row: 2; }
+@media (min-width: 40rem) {
+  .page-photo { float: right; width: 50%; margin: 0.35rem 0 1rem 1.5rem; }
 }
 
 /* Contact form */
