@@ -227,14 +227,18 @@ watch-live:not([hidden]) { display: block; }
 @media (min-width: 60em) { .photo-grid { columns: 4; } }
 .photo-grid li { break-inside: avoid; margin-bottom: 0.75rem; }
 .prose img { border-radius: var(--radius); }
-/* A Page's main photo: above the text on phones, floated right within it from tablet width.
-   The text block contains the float, so whatever follows (like the contact form) starts below it. */
-.prose { display: flow-root; }
+/* A Page's main photo: above the text on phones; from tablet width, floated at the right edge
+   of the page, so it uses the page's full width and the text beside it keeps a comfortable
+   width. The text itself never goes wider than the measure.
+   .page-body contains the float, so the contact form starts below it. */
+.page-body { display: flow-root; }
+.page-body .contact-form { clear: both; }
 .page-photo { margin-bottom: 1.5rem; }
 .page-photo img { display: block; width: 100%; border-radius: var(--radius); }
 @media (min-width: 40rem) {
-  .page-photo { float: right; width: 50%; margin: 0.35rem 0 1rem 1.5rem; }
+  .page-photo { float: right; width: 42%; margin: 0.35rem 0 1rem 1.5rem; }
 }
+@media (min-width: 60em) { .page-photo { margin-left: 3rem; } }
 
 /* Contact form */
 .contact-form label { display: block; font-weight: 600; }
