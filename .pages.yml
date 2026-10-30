@@ -97,6 +97,25 @@ content:
         options:
           switcher: false
           path: src/media/pages
+      - name: photos
+        label: Photos
+        type: object
+        list: true
+        description: Shown as a grid of small squares under the text. For a photo that should be big, put it in the text instead.
+        fields:
+          - name: image
+            label: Photo
+            type: image
+            required: true
+            options:
+              path: src/media/pages
+          - name: description
+            label: Description, for people who can't see the photo
+            type: text
+            required: true
+            description: "Say what's in the photo, e.g. Sunflowers growing along the church railings."
+            options:
+              maxlength: 300
       - name: inMenu
         label: Show in the main menu
         type: boolean

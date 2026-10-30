@@ -7,6 +7,14 @@ layout: layouts/base.njk
   {{ content | cleanEditorHtml | safe }}
 </article>
 
+{%- if entry.photos.length %}
+<ul class="gallery photo-grid" aria-label="Photos">
+  {%- for photo in entry.photos %}
+  <li><img src="{{ photo.image }}" alt="{{ photo.description }}" sizes="(min-width: 72rem) 17rem, (min-width: 40rem) 33vw, 100vw"></li>
+  {%- endfor %}
+</ul>
+{%- endif %}
+
 {% if entry.contactForm %}
   {% include "partials/contact-form.njk" %}
 {% endif %}
