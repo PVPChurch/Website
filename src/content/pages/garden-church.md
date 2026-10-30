@@ -1,8 +1,8 @@
 ---
 title: Garden Church
 summary: ""
-inMenu: false
-menuOrder: 50
+inMenu: true
+menuOrder: 35
 featured: false
 contactForm: false
 published: true

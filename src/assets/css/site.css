@@ -224,8 +224,15 @@ watch-live:not([hidden]) { display: block; }
 /* A Page's photos: smaller tiles (two across on phones, at most four), cropped square so mixed shapes line up. */
 .photo-grid { grid-template-columns: repeat(auto-fill, minmax(min(15rem, calc(50% - 0.375rem)), 1fr)); gap: 0.75rem; margin-top: 2rem; }
 .photo-grid img { aspect-ratio: 1; object-fit: cover; }
-/* Photos in a Page's text. */
+/* Photos in a Page's text. On wide screens, a photo on its own line sits to the right of
+   the text after it, up to the next heading. */
 .prose img { border-radius: var(--radius); }
+@media (min-width: 60em) {
+  .prose p:has(> :is(picture, img):only-child) { float: right; width: 55%; margin: 0 0 1rem 1.5rem; }
+  .prose p:has(> :is(picture, img):only-child) img { display: block; }
+  .prose :is(h2, h3, h4) { clear: both; }
+  .prose::after { content: ""; display: block; clear: both; }
+}
 
 /* Contact form */
 .contact-form label { display: block; font-weight: 600; }

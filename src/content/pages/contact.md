@@ -7,6 +7,8 @@ featured: false
 contactForm: true
 published: true
 ---
+![The church on a winter evening: a low brick building with a tall pointed window in the middle, lit warmly from inside, behind black railings. The noticeboard reads Partick Victoria Park Church, Sunday Worship 11am and 6.30pm.](/media/pages/church-at-night.jpg)
+
 Partick Victoria Park Church<br>
 259 Dumbarton Road<br>
 Glasgow G11 6AB
@@ -14,8 +16,6 @@ Glasgow G11 6AB
 Phone: [0141 339 8816](tel:+441413398816)
 
 [Find us on a map](https://www.openstreetmap.org/search?query=259%20Dumbarton%20Road%2C%20Glasgow%20G11%206AB)
-
-![The church on a winter evening: a low brick building with a tall pointed window in the middle, lit warmly from inside, behind black railings. The noticeboard reads Partick Victoria Park Church, Sunday Worship 11am and 6.30pm.](/media/pages/church-at-night.jpg)
 
 ## Send us a message
 
