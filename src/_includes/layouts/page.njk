@@ -6,7 +6,7 @@ layout: layouts/base.njk
   <div class="prose">
     {%- if entry.photo %}
     {#- Floats to the right of the text from tablet width up; above the text on phones. #}
-    <div class="page-photo"><img src="{{ entry.photo.image }}" alt="{{ entry.photo.description }}" sizes="(min-width: 48rem) 22rem, 100vw"></div>
+    <div class="page-photo"><img src="{{ entry.photo.image }}" alt="{{ entry.photo.description }}" loading="eager" sizes="(min-width: 48rem) 22rem, 100vw"></div>
     {%- endif %}
     {#- Editors' text: cleaned so it can't add scripts or other unsafe HTML (lib/sanitize.js). #}
     {{ content | cleanEditorHtml | safe }}

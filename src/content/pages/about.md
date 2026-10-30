@@ -6,6 +6,9 @@ menuOrder: 20
 featured: false
 contactForm: false
 published: true
+photo:
+  image: /media/pages/eating-together.jpg
+  description: "Christmas lunch in the church hall: people in paper hats and festive jumpers eating together at long tables with red tablecloths."
 ---
 Partick Victoria Park Church is a Church of Scotland congregation at 259 Dumbarton Road, Partick, Glasgow.
 

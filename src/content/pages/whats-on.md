@@ -6,6 +6,9 @@ menuOrder: 30
 featured: true
 contactForm: false
 published: true
+photo:
+  image: /media/pages/sanctuary-flowers.jpg
+  description: A flower arrangement of pink and cream roses on a wooden stand, draped with a white cloth with a gold cross, in front of the glass screen into the sanctuary.
 ---
 Everything below happens at the church, 259 Dumbarton Road, unless it says otherwise. Everyone is welcome.
 
