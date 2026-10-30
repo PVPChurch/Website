@@ -1,10 +1,21 @@
 ---
 layout: layouts/base.njk
 ---
-<article class="prose">
+<article class="page{% if entry.photo %} has-photo{% endif %}">
   <h1>{{ entry.title }}</h1>
-  {#- Editors' text: cleaned so it can't add scripts or other unsafe HTML (lib/sanitize.js). #}
-  {{ content | cleanEditorHtml | safe }}
+  {%- if entry.photo %}
+  {#- Beside the text on wide screens (in the space the text column leaves), under the heading on phones. #}
+  <div class="page-photo"><img src="{{ entry.photo.image }}" alt="{{ entry.photo.description }}" sizes="(min-width: 72rem) 25rem, (min-width: 60em) 33vw, 100vw"></div>
+  {%- endif %}
+  <div class="page-main">
+    <div class="prose">
+      {#- Editors' text: cleaned so it can't add scripts or other unsafe HTML (lib/sanitize.js). #}
+      {{ content | cleanEditorHtml | safe }}
+    </div>
+    {%- if entry.contactForm %}
+    {% include "partials/contact-form.njk" %}
+    {%- endif %}
+  </div>
 </article>
 
 {%- if entry.photos.length %}
@@ -14,7 +25,3 @@ layout: layouts/base.njk
   {%- endfor %}
 </ul>
 {%- endif %}
-
-{% if entry.contactForm %}
-  {% include "partials/contact-form.njk" %}
-{% endif %}

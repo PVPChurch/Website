@@ -97,11 +97,27 @@ content:
         options:
           switcher: false
           path: src/media/pages
+      - name: photo
+        label: Main photo
+        type: object
+        description: Optional. Shown beside the text on a computer, and under the title on a phone. Also the picture people see when the page is shared on social media or in a message.
+        fields:
+          - name: image
+            label: Photo
+            type: image
+            options:
+              path: src/media/pages
+          - name: description
+            label: Description, for people who can't see the photo
+            type: text
+            description: "Say what's in the photo, e.g. The church lit up on a winter evening."
+            options:
+              maxlength: 300
       - name: photos
-        label: Photos
+        label: More photos
         type: object
         list: true
-        description: Shown as a grid of small squares under the text. For a photo that should be big, put it in the text instead.
+        description: Shown in columns under the text, each photo whole.
         fields:
           - name: image
             label: Photo

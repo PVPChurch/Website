@@ -95,9 +95,22 @@ test("Pages: defaults, and addresses the site already uses", () => {
   assert.throws(() => normalisePage({ title: "" }, "untitled.md", "untitled"), /no title/);
 });
 
+test("Pages: the photo beside the text needs a description, and is optional", () => {
+  const page = normalisePage(
+    { title: "Contact us", photo: { image: "/media/pages/night.jpg", description: " The church at night. " } },
+    "contact.md", "contact");
+  assert.deepEqual(page.photo, { image: "/media/pages/night.jpg", description: "The church at night." });
+  assert.equal(normalisePage({ title: "About" }, "about.md", "about").photo, null);
+  assert.equal(normalisePage({ title: "About", photo: { image: "", description: "" } }, "about.md", "about").photo, null);
+  assert.throws(
+    () => normalisePage({ title: "About", photo: { image: "/media/pages/x.jpg" } }, "about.md", "about"),
+    /about\.md: .*photo .* no description/,
+  );
+});
+
 test("Pages: photos need a description, and empty rows are ignored", () => {
   const page = normalisePage({
-    title: "Garden Church",
+    title: "Garden church",
     photos: [
       { image: "/media/pages/tulips.jpg", description: " Tulips in the garden. " },
       { image: "", description: "" },

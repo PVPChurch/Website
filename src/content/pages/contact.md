@@ -6,9 +6,10 @@ menuOrder: 90
 featured: false
 contactForm: true
 published: true
+photo:
+  image: /media/pages/church-at-night.jpg
+  description: "The church on a winter evening: a low brick building with a tall pointed window in the middle, lit warmly from inside, behind black railings. The noticeboard reads Partick Victoria Park Church, Sunday Worship 11am and 6.30pm."
 ---
-![The church on a winter evening: a low brick building with a tall pointed window in the middle, lit warmly from inside, behind black railings. The noticeboard reads Partick Victoria Park Church, Sunday Worship 11am and 6.30pm.](/media/pages/church-at-night.jpg)
-
 Partick Victoria Park Church<br>
 259 Dumbarton Road<br>
 Glasgow G11 6AB

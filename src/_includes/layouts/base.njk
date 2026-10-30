@@ -7,6 +7,16 @@
   <meta name="description" content="{{ description or (site.name + ', a ' + site.denomination + ' congregation in Partick, Glasgow.') }}">
   {%- if noindex %}<meta name="robots" content="noindex">{% endif %}
   <link rel="canonical" href="{{ page.url | absoluteUrl(site.url) }}">
+  {#- The preview when a page is shared in a message or on social media: a Page's photo, otherwise the church. #}
+  {%- set sharePhoto = entry.photo if (entry and entry.photo) else { image: "/assets/images/church.jpg", description: "The church building on Dumbarton Road." } %}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ site.name if page.url == '/' else (title or entry.title or site.name) }}">
+  <meta property="og:description" content="{{ description or (entry.summary if entry) or (site.name + ', a ' + site.denomination + ' congregation in Partick, Glasgow.') }}">
+  <meta property="og:url" content="{{ page.url | absoluteUrl(site.url) }}">
+  <meta property="og:image" content="{{ sharePhoto.image | absoluteUrl(site.url) }}">
+  <meta property="og:image:alt" content="{{ sharePhoto.description }}">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="/assets/css/site.css">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">

@@ -226,14 +226,15 @@ watch-live:not([hidden]) { display: block; }
 @media (min-width: 40rem) { .photo-grid { columns: 3; } }
 @media (min-width: 60em) { .photo-grid { columns: 4; } }
 .photo-grid li { break-inside: avoid; margin-bottom: 0.75rem; }
-/* Photos in a Page's text. On wide screens, a photo on its own line sits to the right of
-   the text after it, up to the next heading. */
 .prose img { border-radius: var(--radius); }
+/* A Page's photo: under the heading on phones; on wide screens, beside the text in the space its column leaves. */
+.page-photo { margin-bottom: 1.5rem; }
+.page-photo img { display: block; width: 100%; border-radius: var(--radius); }
 @media (min-width: 60em) {
-  .prose p:has(> :is(picture, img):only-child) { float: right; width: 55%; margin: 0 0 1rem 1.5rem; }
-  .prose p:has(> :is(picture, img):only-child) img { display: block; }
-  .prose :is(h2, h3, h4) { clear: both; }
-  .prose::after { content: ""; display: block; clear: both; }
+  .page.has-photo { display: grid; grid-template-columns: minmax(0, var(--measure)) minmax(16rem, 1fr); column-gap: 3rem; align-items: start; }
+  .page.has-photo > h1 { grid-column: 1 / -1; }
+  .page.has-photo > .page-photo { grid-column: 2; grid-row: 2; margin-top: 0.25rem; }
+  .page.has-photo > .page-main { grid-column: 1; grid-row: 2; }
 }
 
 /* Contact form */

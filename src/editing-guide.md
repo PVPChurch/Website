@@ -37,7 +37,10 @@ The website updates about a minute later. If a service hasn't appeared by Sunday
 2. Click into the text and change it. To add a heading, a list, a link or a picture, **type `/`** and choose from the menu that appears.
 3. Press **Save**.
 
-A page can also have **Photos**: they appear as a grid of small squares under the text. Add each one with a description of what's in it, for people who can't see it. For one bigger photo, put it in the text instead (type `/` and choose the picture option): on a computer it sits to the right of the text that comes after it, and on a phone above it.
+A page can have photos too. Give each one a description of what's in it, for people who can't see it.
+
+- **Main photo**: one photo beside the text on a computer, or under the title on a phone. It's also the picture people see when the page is shared on Facebook or WhatsApp.
+- **More photos**: as many as you like, in columns under the text.
 
 The top of the home page is under **Home page welcome**: the heading, a short welcome, and the **Sunday services** times. If a service time changes, change it there.
 

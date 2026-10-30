@@ -1,5 +1,5 @@
 ---
-title: Garden Church
+title: Garden church
 summary: ""
 inMenu: true
 menuOrder: 35
@@ -32,4 +32,4 @@ photos:
   - image: /media/pages/garden-church/wreath-making.jpg
     description: Hands weaving ivy and twigs into a wreath.
 ---
-Photos from a year of Garden Church.
+Photos from a year of Garden church.
